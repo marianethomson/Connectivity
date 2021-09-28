@@ -1,9 +1,9 @@
 function showSearchPanel() {
-    $('#search-panel').show();
-    $('#search-results-panel').hide();
-    $('#favourites-panel').hide();
+  $("#search-panel").show();
+  $("#search-results-panel").hide();
+  $("#favourites-panel").hide();
 }
 
 $(function () {
-    $('#search-btn').click(showSearchResultsPanel);
-   });
+  $("#search-btn").click(showSearchResultsPanel);
+});
