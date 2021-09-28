@@ -1,0 +1,23 @@
+#search-panel{
+    min-height: 500px;
+    width: 500px;
+    border: 2px;
+    border-color: blue;
+    background-color: cornflowerblue;
+}
+
+#search-results-panel{
+    min-height: 500px;
+    width: 500px;
+    border: 2px;
+    border-color: blue;
+    background-color: rgb(237, 100, 219);
+}
+
+#favourites-panel{
+    min-height: 500px;
+    width: 500px;
+    border: 2px;
+    border-color: blue;
+    background-color: rgb(223, 237, 100);
+}
