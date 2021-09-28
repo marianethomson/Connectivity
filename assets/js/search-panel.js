@@ -7,3 +7,10 @@ function showSearchPanel() {
 $(function () {
     $('#search-btn').click(showSearchResultsPanel);
    });
+
+
+   // function to call the bored api
+
+   function searchBoredApi(){
+       
+   }
