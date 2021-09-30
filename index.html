@@ -1,37 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="./assets/js/script.js"></script>
     <script src="./assets/js/search-panel.js"></script>
     <script src="./assets/js/search-results-panel.js"></script>
     <script src="./assets/js/favourites-panel.js"></script>
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Connectivity</title>
-</head>
-<body>
-<div id="search-panel">
+  </head>
+  <body>
+    <div id="search-panel">
+      <h1>Search Page Goes here!</h1>
+      <form>
+        <input
+          class="input"
+          id="search"
+          type="text"
+          placeholder="Search Books or Movies"
+        />
+        <button type="button" id="search-btn">Search!</button>
+        <p id="infoStatus"></p>
+      </form>
+    </div>
 
-    <h1>Search Page Goes here!</h1>
-    <button type="button" id="search-btn">Search!</button>
-
-</div>
-
-<div id="search-results-panel" >
-
-    <h1>Search Results Go here!</h1>
-    <button type="button" id="save-event">Save</button>
-
-    
-</div>
-<div id="favourites-panel">
-
-    <h1>Favourites panel go here!</h1>
-    <button type="button" id="home-btn">Home</button>
-    
-</div>
-</body>
+    <div id="search-results-panel">
+      <h1>Search Results Go here!</h1>
+      <button type="button" id="save-event">Save</button>
+    </div>
+    <div id="favourites-panel">
+      <h1>Favourites panel go here!</h1>
+      <button type="button" id="home-btn">Home</button>
+    </div>
+  </body>
 </html>
