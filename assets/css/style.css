@@ -65,7 +65,13 @@ header {
   border: 1px solid #ccc;
   border-top: none;
 }
+
 main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
   width: 80%;
   border: 2px solid black;
   margin: auto;
