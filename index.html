@@ -2,17 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Movie and Book Database</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/search-panel.js"></script>
+    <script src="./assets/js/search-results-panel.js"></script>
+    <script src="./assets/js/favourites-panel.js"></script>
     <link rel="stylesheet" href="./assets/css/style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
       rel="stylesheet"
     />
+    <title>Connectivity</title>
   </head>
-
   <body>
+
     <header>
       <!-- Title -->
       <h1>Movie and Book Database</h1>
@@ -36,20 +41,8 @@
       </div>
     </header>
 
-    <!-- Tab content -->
-    <div id="Books" class="tabcontent">
-      <h3>Books</h3>
-    </div>
 
-    <div id="Movies" class="tabcontent">
-      <h3>Movies</h3>
-    </div>
 
-    <div id="Books&Movies" class="tabcontent">
-      <h3>Books & Movies</h3>
-    </div>
-
-    <main>
       <div class="container">
         <div class="search_box">
           <button type="button" id="search-btn">Search</button>
@@ -58,6 +51,7 @@
             class="input_search"
             placeholder="What are you looking for?"
           />
+           <p id="infoStatus"></p>
         </div>
         <h1>Search by Title</h1>
 
