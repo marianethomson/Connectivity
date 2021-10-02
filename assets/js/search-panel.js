@@ -107,8 +107,7 @@ function getTopSellers() {
   var topSellerBooksUrl = new URL(
     "https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=C1TDrksFmBX6rwRPyWGH6t6yIkYDeYxq"
   );
-  /*  topSellerBooksUrl.searchParams.set("api-key",apiKey);
-   */
+
   console.log(topSellerBooksUrl);
 
   fetch(topSellerBooksUrl)
@@ -143,8 +142,6 @@ function getUserChoiceByTitle(userChoicebyTitle) {
 // Function to get user choice  by author's name
 
 function getUserChoicebyAuthor(authorName) {
-  /*  authorName = "Liane Moriarty"; */
-  /* authorName = "Michelle"; */
 
   var searchByAuthorUrl = new URL(
     "https://api.nytimes.com/svc/books/v3/reviews.json?author=" +
@@ -216,8 +213,8 @@ function renderBookResultTemplate(result){
   </div>`;
 }
 
-/* 
- getTopSellers(); */
+
+ getTopSellers(); 
 
 // Function to display top five books
 
@@ -232,29 +229,26 @@ function renderTopSellers(queryRes){
 
 
 function renderTopFiveBookResultTemplate(result){
-  return `
- <div class="card">
-   <div class="card-content">
-     <div class="media">
-       <div class="media-left">
-         <figure class="image is-48x48">
-           <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https://storage.googleapis.com/du-prd/books/images/${result.isbns[0].isbn13}.jpg" alt="${result.book_title}">
-         </figure>
-       </div>
-       <div class="media-content">
-         <p class="title is-4">${result.title}</p>
-         <p class="subtitle is-6">${result.author}</p>
-       </div>
-     </div>
-     <div class="content">
-     ${result.rank}
-       <br>
-     
-     </div>
-   </div>
- </div>`
- 
-}
+  return `<article class="media">
+  <figure class="media-left">
+    <p class="image is-64x64">
+    <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https://storage.googleapis.com/du-prd/books/images/${result.isbns[0].isbn13}.jpg" alt="${result.book_title}">
+    </p>
+  </figure>
+  <div class="media-content">
+    <div class="content">
+      <p>
+        <strong>${result.title}</strong><small><br>
+        By: ${result.author}</small>
+        <br>
+       ${result.description}
+      </p>
+    </div>
+    
+  <div class="media-right">
+    <button class="is-danger">&#x2764;</button>
+  </div>
+</article>`}
 
 //Monitors the checkboxes values
 $(document).ready(getCheckBoxMovies);
