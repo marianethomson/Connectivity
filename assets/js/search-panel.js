@@ -193,7 +193,7 @@ function renderUserChoiceByTitle(bookRes) {
   );
 }
 
-// Function to display books by an author
+
 /* getUserChoicebyAuthor("Barack Obama"); */
 getUserChoiceByTitle("Becoming");
 
@@ -206,10 +206,12 @@ function renderBookResult(queryRes) {
   $("#bookResults").html(innerHTML);
 }
 
-function renderBookResultTemplate(result) {
-  return `
+
+// Function to display books by an author or title
+
+function renderBookResultTemplate(result){
+   return `
   <div class="card">
-    
     <div class="card-content">
       <div class="media">
         <div class="media-left">
@@ -222,7 +224,6 @@ function renderBookResultTemplate(result) {
           <p class="subtitle is-6">${result.byline}</p>
         </div>
       </div>
-  
       <div class="content">
       ${result.summary}
         <br>
@@ -231,6 +232,7 @@ function renderBookResultTemplate(result) {
     </div>
   </div>`;
 }
+
 
 //Monitors the checkboxes values
 $(document).ready(getCheckBoxMovies);
