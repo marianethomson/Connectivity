@@ -11,9 +11,11 @@ $(function () {
   var books = $("#Books").val();
   var movies = $("#Movies").val();
   console.log(movies);
+  console.log(books);
   $("#search-btn").on("click", showSearchResultsPanel, function (event) {
     event.preventDefault();
     getMoviesByParam();
+    getUserChoiceByTitle(books);
   });
 
   // process form
@@ -106,8 +108,7 @@ function getTopSellers() {
 // Function to get book details by user's choice of title
 
 function getUserChoiceByTitle(userChoicebyTitle) {
-  /*  userChoicebyTitle = "THE PAPER PALACE"; */
-
+  console.log(userChoicebyTitle +" step1");
   var searchByTitleUrl = new URL(
     "https://api.nytimes.com/svc/books/v3/reviews.json?title=" +
       userChoicebyTitle +
@@ -171,7 +172,7 @@ function renderUserChoiceByTitle(bookRes) {
 
 
 /* getUserChoicebyAuthor("Barack Obama"); */
-getUserChoiceByTitle("Becoming");
+/* getUserChoiceByTitle("Becoming"); */
 
 function renderBookResult(queryRes) {
   $("#bookResults").html("");
@@ -209,4 +210,43 @@ function renderBookResultTemplate(result){
   </div>`;
 }
 
+
+ getTopSellers();
+
+// Function to display top five books
+
+function renderTopSellers(queryRes){
+  $("#topBookResults").html("");
+  var innerHTML = "";
+ queryRes.slice(0,5).forEach(result => {
+   innerHTML += renderTopFiveBookResultTemplate(result);
+ });
+ $("#topBookResults").html(innerHTML);
+}
+
+
+function renderTopFiveBookResultTemplate(result){
+  return `
+ <div class="card">
+   <div class="card-content">
+     <div class="media">
+       <div class="media-left">
+         <figure class="image is-48x48">
+           <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https://storage.googleapis.com/du-prd/books/images/${result.isbns[0].isbn13}.jpg" alt="${result.book_title}">
+         </figure>
+       </div>
+       <div class="media-content">
+         <p class="title is-4">${result.title}</p>
+         <p class="subtitle is-6">${result.author}</p>
+       </div>
+     </div>
+     <div class="content">
+     ${result.rank}
+       <br>
+     
+     </div>
+   </div>
+ </div>`
+ 
+}
 
