@@ -7,15 +7,37 @@ function showSearchPanel() {
   $("#favourites-panel").hide();
 }
 
+//function to get checkbox value Movies
+function getCheckBoxMovies() {
+  $("#Movies").change(function () {
+    return $(this).prop("checked");
+  });
+}
+
+//function to get checkbox value Books
+function getCheckBoxBooks() {
+  $("#Books").click(function () {
+    return $(this).prop("checked");
+  });
+}
+
 $(function () {
-  var books = $("#Books").val();
-  var movies = $("#Movies").val();
-  console.log(movies);
-  console.log(books);
   $("#search-btn").on("click", showSearchResultsPanel, function (event) {
     event.preventDefault();
-    getMoviesByParam();
-    getUserChoiceByTitle(books);
+    //search only by movie
+    if (getCheckBoxMovies() == true) {
+      getMoviesByParam();
+    } //search only by book
+    else if (getCheckBoxBooks() == true) {
+      getUserChoicebyAuthor(authorName);
+      getUserChoiceByTitle(userChoicebyTitle);
+    }
+    //search all
+    else {
+      getMoviesByParam();
+      getUserChoicebyAuthor(authorName);
+      getUserChoiceByTitle(userChoicebyTitle);
+    }
   });
 
   // process form
@@ -157,22 +179,6 @@ function getBookDetails(searchURL) {
 
 // Display results for the user's choice of book by title
 
-function renderUserChoiceByTitle(bookRes) {
-  $("#userChoiceBook").text(
-    " Published date: " +
-      bookRes.publication_dt +
-      " Title: " +
-      bookRes.book_title +
-      " Author: " +
-      bookRes.book_author +
-      " Summary: " +
-      bookRes.summary
-  );
-}
-
-
-/* getUserChoicebyAuthor("Barack Obama"); */
-/* getUserChoiceByTitle("Becoming"); */
 
 function renderBookResult(queryRes) {
   $("#bookResults").html("");
@@ -210,8 +216,8 @@ function renderBookResultTemplate(result){
   </div>`;
 }
 
-
- getTopSellers();
+/* 
+ getTopSellers(); */
 
 // Function to display top five books
 
@@ -250,3 +256,6 @@ function renderTopFiveBookResultTemplate(result){
  
 }
 
+//Monitors the checkboxes values
+$(document).ready(getCheckBoxMovies);
+$(document).ready(getCheckBoxBooks);
