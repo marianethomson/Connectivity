@@ -4,7 +4,7 @@ var fetchButton = document.getElementById("search-btn");
 //   .then((response) => response.json())
 //   .then((data) => console.log(data));
 
-function getApi(event) {
+/* function getApi(event) {
   event.preventDefault();
   var requestUrl =
     "https://www.eventbriteapi.com/v3/users/me/?token=GE25XEDOS3NMOG436PKP";
@@ -21,3 +21,4 @@ function getApi(event) {
 
 // fetchButton.addEventListener("click", getApi);
 fetchButton.addEventListener("click", getApi);
+ */

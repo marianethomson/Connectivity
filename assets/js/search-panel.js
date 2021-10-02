@@ -50,7 +50,7 @@ function getMovies() {
 }
 
 
-// Function to get movies data
+// Function to get Books data
 
 function getTopSellers() {
   var topSellerBooksUrl = new URL(
@@ -74,6 +74,62 @@ function getTopSellers() {
       .catch(function (error) {
           console.error(error);
       });
+}
+
+
+// Function to get book details by user's choice of title
+
+ function getUserChoiceByTitle(userChoicebyTitle) {
+  userChoicebyTitle = "THE PAPER PALACE";
+
+  var searchByTitleUrl = new URL(
+      "https://api.nytimes.com/svc/books/v3/reviews.json?title=" +
+      userChoicebyTitle +
+      "&api-key=C1TDrksFmBX6rwRPyWGH6t6yIkYDeYxq"
+  );
+ 
+  getBookDetails(searchByTitleUrl);
+  
+} 
+
+
+// Function to get user choice  by author's name
+
+function getUserChoicebyAuthor(authorName){
+
+   authorName = "Liane Moriarty";
+  /* authorName = "Michelle"; */
+
+  var searchByAuthorUrl = new URL(
+      "https://api.nytimes.com/svc/books/v3/reviews.json?author=" +
+      authorName +
+      "&api-key=C1TDrksFmBX6rwRPyWGH6t6yIkYDeYxq"
+  );
+  
+  getBookDetails(searchByAuthorUrl);
+}
+
+// Function to retrieve data for search by title/author
+
+function getBookDetails(searchURL){
+
+  fetch(searchURL)
+  .then(function (response) {
+      if (!response.ok) {
+          throw response.json();
+      }
+      return response.json();
+  })
+  .then(function (queryRes) {
+      console.log(queryRes.results);
+      /*  renderUserChoiceByTitle(queryRes.results[0]); */
+       renderUserChoiceBookByAuthor(queryRes);
+  })
+  .catch(function (error) {
+      console.error(error);
+  });
+
+
 }
 
 // Functionto display the top 5 bestsellers - books
@@ -146,40 +202,9 @@ function renderTopSellers(queryRes) {
       );
   }
 }
-
-// Function to get book details by user's choice of title
-
-function getBookDetails(userChoicebyTitle) {
-  userChoicebyTitle = "THE PAPER PALACE";
-
-  var searchByTitleUrl = new URL(
-      "https://api.nytimes.com/svc/books/v3/reviews.json?title=" +
-      userChoicebyTitle +
-      "&api-key=C1TDrksFmBX6rwRPyWGH6t6yIkYDeYxq"
-  );
-  /*  topSellerBooksUrl.searchParams.set("api-key",apiKey);
-   */
-  console.log(searchByTitleUrl);
-
-  fetch(searchByTitleUrl)
-      .then(function (response) {
-          if (!response.ok) {
-              throw response.json();
-          }
-          return response.json();
-      })
-      .then(function (queryRes) {
-          console.log(queryRes.results[0]);
-          renderUserChoiceBook(queryRes.results[0]);
-      })
-      .catch(function (error) {
-          console.error(error);
-      });
-}
-
 // Display results for the user's choice of book by title
 
-function renderUserChoiceBook(bookRes) {
+function renderUserChoiceByTitle(bookRes) {
   $("#userChoiceBook").text(
       " Published date: " +
       bookRes.publication_dt + 
@@ -191,5 +216,17 @@ function renderUserChoiceBook(bookRes) {
       bookRes.summary
   );
 }
+// Function to display books by an author
+getUserChoicebyAuthor("Michelle Obama");
+
+function renderUserChoiceBookByAuthor(queryRes){
+
+ var numResults = queryRes.num_results;
+console.log(numResults);
+ console.log(queryRes.results[0].book_title);
+  for(var i=0 ; i < numResults ; i++){
+    $("#searchResultsByAuthor").append(queryRes.results[i].book_title);
+  }
 
 
+}
