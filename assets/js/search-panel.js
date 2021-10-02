@@ -150,7 +150,7 @@ function renderUserChoiceByTitle(bookRes) {
   );
 }
 
-// Function to display books by an author
+
 /* getUserChoicebyAuthor("Barack Obama"); */
 getUserChoiceByTitle("Becoming");
 
@@ -162,6 +162,9 @@ function renderBookResult(queryRes){
  });
  $("#bookResults").html(innerHTML);
 }
+
+
+// Function to display books by an author or title
 
 function renderBookResultTemplate(result){
    return `
@@ -189,4 +192,5 @@ function renderBookResultTemplate(result){
   </div>`
   
 }
+
 
