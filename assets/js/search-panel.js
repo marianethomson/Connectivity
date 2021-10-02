@@ -7,13 +7,37 @@ function showSearchPanel() {
   $("#favourites-panel").hide();
 }
 
+//function to get checkbox value Movies
+function getCheckBoxMovies() {
+  $("#Movies").change(function () {
+    return $(this).prop("checked");
+  });
+}
+
+//function to get checkbox value Books
+function getCheckBoxBooks() {
+  $("#Books").click(function () {
+    return $(this).prop("checked");
+  });
+}
+
 $(function () {
-  var books = $("#Books").val();
-  var movies = $("#Movies").val();
-  console.log(movies);
   $("#search-btn").on("click", showSearchResultsPanel, function (event) {
     event.preventDefault();
-    getMoviesByParam();
+    //search only by movie
+    if (getCheckBoxMovies() == true) {
+      getMoviesByParam();
+    } //search only by book
+    else if (getCheckBoxBooks() == true) {
+      getUserChoicebyAuthor(authorName);
+      getUserChoiceByTitle(userChoicebyTitle);
+    }
+    //search all
+    else {
+      getMoviesByParam();
+      getUserChoicebyAuthor(authorName);
+      getUserChoiceByTitle(userChoicebyTitle);
+    }
   });
 
   // process form
@@ -207,3 +231,7 @@ function renderBookResultTemplate(result) {
     </div>
   </div>`;
 }
+
+//Monitors the checkboxes values
+$(document).ready(getCheckBoxMovies);
+$(document).ready(getCheckBoxBooks);
