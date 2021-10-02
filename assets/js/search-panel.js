@@ -214,7 +214,7 @@ function renderBookResultTemplate(result){
 }
 
 
- getTopSellers(); 
+/*  getTopSellers();  */
 
 // Function to display top five books
 
