@@ -12,7 +12,7 @@ $(function () {
     getMovies();
   });
 
-  // process form
+    // process form
 });
 
 //get search parameters
@@ -80,7 +80,7 @@ function getTopSellers() {
 // Function to get book details by user's choice of title
 
  function getUserChoiceByTitle(userChoicebyTitle) {
-  userChoicebyTitle = "THE PAPER PALACE";
+ /*  userChoicebyTitle = "THE PAPER PALACE"; */
 
   var searchByTitleUrl = new URL(
       "https://api.nytimes.com/svc/books/v3/reviews.json?title=" +
@@ -97,7 +97,7 @@ function getTopSellers() {
 
 function getUserChoicebyAuthor(authorName){
 
-   authorName = "Liane Moriarty";
+  /*  authorName = "Liane Moriarty"; */
   /* authorName = "Michelle"; */
 
   var searchByAuthorUrl = new URL(
@@ -122,8 +122,8 @@ function getBookDetails(searchURL){
   })
   .then(function (queryRes) {
       console.log(queryRes.results);
-      /*  renderUserChoiceByTitle(queryRes.results[0]); */
-       renderUserChoiceBookByAuthor(queryRes);
+ 
+       renderBookResult(queryRes);
   })
   .catch(function (error) {
       console.error(error);
@@ -134,74 +134,7 @@ function getBookDetails(searchURL){
 
 // Functionto display the top 5 bestsellers - books
 
-function renderTopSellers(queryRes) {
-  if (!queryRes) {
-      return;
-  } else {
-      $("#top1").text(
-          "Rank: " +
-          queryRes[0].rank +
-          " " +
-          queryRes[0].title +
-          " By the best selling author " +
-          queryRes[0].author
-      );
-      /*   $("#userChoiceBook").attr("src", queryRes[0].book_image); */
-      $("#img1Disp").attr(
-          "src",
-          queryRes[0].book_image
-      );
 
-      $("#top2").text(
-          "Rank: " +
-          queryRes[1].rank +
-          " " +
-          queryRes[1].title +
-          " By the best selling author " +
-          queryRes[1].author
-      );
-      $("#img2Disp").attr(
-          "src",
-          queryRes[1].book_image
-      );
-      $("#top3").text(
-          "Rank: " +
-          queryRes[2].rank +
-          " " +
-          queryRes[2].title +
-          " By the best selling author " +
-          queryRes[2].author
-      );
-      $("#img3Disp").attr(
-          "src",
-          queryRes[2].book_image
-      );
-      $("#top4").text(
-          "Rank: " +
-          queryRes[3].rank +
-          " " +
-          queryRes[3].title +
-          " By the best selling author " +
-          queryRes[3].author
-      );
-      $("#img4Disp").attr(
-          "src",
-         "./assets/images/empty-book-cover1.png"
-      );
-      $("#top5").text(
-          "Rank: " +
-          queryRes[4].rank +
-          " " +
-          queryRes[4].title +
-          " By the best selling author " +
-          queryRes[4].author
-      );
-      $("#img5Disp").attr(
-          "src",
-          "./assets/images/empty-book-cover2.png"
-      );
-  }
-}
 // Display results for the user's choice of book by title
 
 function renderUserChoiceByTitle(bookRes) {
@@ -216,17 +149,44 @@ function renderUserChoiceByTitle(bookRes) {
       bookRes.summary
   );
 }
+
 // Function to display books by an author
-getUserChoicebyAuthor("Michelle Obama");
+/* getUserChoicebyAuthor("Barack Obama"); */
+getUserChoiceByTitle("Becoming");
 
-function renderUserChoiceBookByAuthor(queryRes){
-
- var numResults = queryRes.num_results;
-console.log(numResults);
- console.log(queryRes.results[0].book_title);
-  for(var i=0 ; i < numResults ; i++){
-    $("#searchResultsByAuthor").append(queryRes.results[i].book_title);
-  }
-
-
+function renderBookResult(queryRes){
+  $("#bookResults").html("");
+  var innerHTML = "";
+ queryRes.results.forEach(result => {
+   innerHTML += renderBookResultTemplate(result);
+ });
+ $("#bookResults").html(innerHTML);
 }
+
+function renderBookResultTemplate(result){
+   return `
+  <div class="card">
+    
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-48x48">
+            <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https:\/\/storage.googleapis.com\/du-prd\/books\/images\/${result.isbn13[0]}.jpg" alt="${result.book_title}">
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-4">${result.book_title}</p>
+          <p class="subtitle is-6">${result.byline}</p>
+        </div>
+      </div>
+  
+      <div class="content">
+      ${result.summary}
+        <br>
+        <time datetime>${result.publication_dt}</time>
+      </div>
+    </div>
+  </div>`
+  
+}
+
