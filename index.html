@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="./assets/js/script.js"></script>
+  <!--   <script src="./assets/js/script.js"></script> -->
     <script src="./assets/js/search-panel.js"></script>
-    <script src="./assets/js/search-results-panel.js"></script>
-    <script src="./assets/js/favourites-panel.js"></script>
+  <!--   <script src="./assets/js/search-results-panel.js"></script> -->
+   <!--  <script src="./assets/js/favourites-panel.js"></script> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="./assets/css/style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
@@ -29,7 +29,10 @@
 
         <!-- Tab links -->
         <div class="tabmenu">
-            <button class="tablinks" onclick="openCategorie(event, 'Books')">
+            <button id="homePageTab" class="tablinks" onclick="showSearchPanel(event, 'Home')">
+                Home
+            </button>
+            <button id="topBooksTab" class="tablinks" onclick="getTopSellers(event, 'Books')">
                 Books
             </button>
             <button class="tablinks" onclick="openCategorie(event, 'Movies')">
@@ -43,16 +46,16 @@
 
 
     <!--Home page div-->
-    <div class="container">
+    <div id="search-panel" class="container">
         <h1>Search by Title</h1>
         <div class="search_box">
             <input type="text" class="input_search" id="search" placeholder="What are you looking for?" />
             <button type="button" id="search-btn">Search</button>
              <button type="button" id="critics-btn">Critics</button>
              <button type="button" id="books-lists-btn">Book Lists</button>
-            <p id="infoStatus"></p>
+             <div id="infoStatus"></div>
         </div>
-
+           
 
         <form action="search_checkbox">
             <input type="checkbox" id="Books" value="Books" />
@@ -70,20 +73,20 @@
 
         </div>
 
-        <div id="topBookResults">
-            
-
-
-        </div>
-
-
         <div id="movieResults">
             <!-- Mariane's movie results go here -->
         </div>
 
     </div>
 
+    
+    <div id="topBookResultsPanel" class="box" class="columns">
+            
     <!--Top Seller Books div-->
+
+
+    </div>
+
     <div>
 
     </div>

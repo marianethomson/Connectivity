@@ -3,29 +3,39 @@ var apiBooksKey = "C1TDrksFmBX6rwRPyWGH6t6yIkYDeYxq";
 var baseMoviesURL = "https://api.nytimes.com/svc/movies/v2/reviews/search.json";
 var baseBooksURL = "https://api.nytimes.com/svc/books/v3/reviews.json";
 
-function showSearchPanel() {
+ function showSearchPanel() {
   $("#search-panel").show();
+  $("#topBookResultsPanel").hide();
   $("#search-results-panel").hide();
   $("#favourites-panel").hide();
-}
+} 
 
 //function to get checkbox value Movies
 function getCheckBoxMovies() {
-  $("#Movies").change(function () {
+  /* $("#Movies").change(function () {
     return $(this).prop("checked");
-  });
+  }); */
+
+// Simpler solution
+
+  
+    return $("#Movies").prop("checked");
 }
 
 //function to get checkbox value Books
 function getCheckBoxBooks() {
-  $("#Books").click(function () {
-    return $(this).prop("checked");
-  });
+  
+    return $("#Books").prop("checked");
+ 
 }
 
 $(function () {
-  $("#search-btn").on("click", showSearchResultsPanel, function (event) {
+  $("#search-btn").click(function (event) {
     event.preventDefault();
+    if(!isSearchParamPresent()){
+      return;
+    }
+    
     //search only by movie
     if (getCheckBoxMovies()) {
       getMoviesByParam();
@@ -46,28 +56,55 @@ $(function () {
 });
 //tests movies critics-picks
 $(function () {
-  $("#critics-btn").on("click", showSearchResultsPanel, function (event) {
+  $("#critics-btn").on("click", function (event) {
     event.preventDefault();
     getMoviesPicks();
   });
 });
-//tests books list best sellers
+// Books tab takes the user to the best sellers section
 $(function () {
-  $("#books-lists-btn").on("click", showSearchResultsPanel, function (event) {
-    event.preventDefault();
+  $("#topBooksTab").on("click", function (event) {
+   /*  event.preventDefault(); */
     getTopSellers();
+    $("#search-panel").hide();
+    $("#topBookResultsPanel").show();
+    $("#favourites-panel").hide();
+   
+   
   });
 });
+
+
+$(function () {
+  $("#homePageTab").on("click",function (event) {
+    $("#search-panel").show();
+    $("#topBookResultsPanel").hide();
+    $("#favourites-panel").hide();
+  });
+});
+
+// 
+
+function isSearchParamPresent(){
+  var param = $("#search").val();
+  console.log(param);
+  var infoStatus = $("#infoStatus");
+  if (!param || param.trim().length === 0) {
+    infoStatus.text("Please inform something to search for");
+    console.log(infoStatus);
+return false;
+  } else {
+    infoStatus.val() = "";
+    return true;
+
+  }
+}
+
 
 //get search parameters
 function getSearchParam() {
   var param = $("#search").val();
-  var infoStatus = $("#infoStatus");
-  if (param == 0) {
-    infoStatus.text = "Please inform something to search for.";
-  } else {
-    return param;
-  }
+  return param;
 }
 
 //calls the NYT Movies API and get the critics picks
@@ -251,23 +288,24 @@ function renderBookResultTemplate(result) {
 // Function to display top five books
 
 function renderTopSellers(queryRes) {
-  $("#topBookResults").html("");
+  $("#topBookResultsPanel").html("");
   var innerHTML = "";
   queryRes.slice(0, 5).forEach((result) => {
     innerHTML += renderTopFiveBookResultTemplate(result);
   });
-  $("#topBookResults").html(innerHTML);
+  $("#topBookResultsPanel").html(innerHTML);
 }
 
 function renderTopFiveBookResultTemplate(result) {
-  return `<article class="media">
+  return `<article class="media is-10 is-offset-2" >
   <figure class="media-left">
     <p class="image is-64x64">
     <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https://storage.googleapis.com/du-prd/books/images/${result.isbns[0].isbn13}.jpg" alt="${result.book_title}">
     </p>
   </figure>
-  <div class="media-content">
-    <div class="content">
+  
+  <div class="media-content" class="column">
+    <div class="content" class="column">
       <p>
         <strong>${result.title}</strong><small><br>
         By: ${result.author}</small>
