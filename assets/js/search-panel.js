@@ -17,7 +17,6 @@ function getCheckBoxMovies() {
   }); */
 
 // Simpler solution
-
   
     return $("#Movies").prop("checked");
 }
@@ -31,24 +30,19 @@ function getCheckBoxBooks() {
 
 $(function () {
   $("#search-btn").click(function (event) {
-    event.preventDefault();
-    if(!isSearchParamPresent()){
+    var param = getSearchParam();
+    
+    if(!isParameterValid(param)){
       return;
     }
     
     //search only by movie
     if (getCheckBoxMovies()) {
-      getMoviesByParam();
+      getMoviesByParam(param);
     } //search only by book
     else if (getCheckBoxBooks()) {
-      getUserChoicebyAuthor();
-      getUserChoiceByTitle();
-    }
-    //search all
-    else {
-      getMoviesByParam();
-      getUserChoicebyAuthor();
-      getUserChoiceByTitle();
+      getUserChoicebyAuthor(param);
+      getUserChoiceByTitle(param);
     }
   });
 
@@ -85,26 +79,21 @@ $(function () {
 
 // 
 
-function isSearchParamPresent(){
-  var param = $("#search").val();
-  console.log(param);
+function isParameterValid(param){
   var infoStatus = $("#infoStatus");
   if (!param || param.trim().length === 0) {
     infoStatus.text("Please inform something to search for");
-    console.log(infoStatus);
-return false;
+      return false;
   } else {
-    infoStatus.val() = "";
+    infoStatus.text(" ");
     return true;
-
   }
 }
 
 
 //get search parameters
 function getSearchParam() {
-  var param = $("#search").val();
-  return param;
+  return $("#search").val();
 }
 
 //calls the NYT Movies API and get the critics picks
@@ -116,29 +105,25 @@ function getMoviesPicks() {
 }
 
 //calls the NYT Movies API search movies by param
-function getMoviesByParam() {
-  var param = getSearchParam();
+function getMoviesByParam(param) {
   var apiQueryUrl =
     baseMoviesURL + "?query=" + param + "&api-key=" + apiMoviesKey;
   getMovieDetails(apiQueryUrl);
 }
 
 // Function to get book details by user's choice of title
-function getUserChoiceByTitle() {
-  var userChoicebyTitle = getSearchParam();
-  console.log(userChoicebyTitle + " step1");
+function getUserChoiceByTitle(param) {
   var searchByTitleUrl = new URL(
-    baseBooksURL + "?title=" + userChoicebyTitle + "&api-key=" + apiBooksKey
+    baseBooksURL + "?title=" + param + "&api-key=" + apiBooksKey
   );
   getBookDetails(searchByTitleUrl);
 }
 
 // Function to get user choice  by author's name
 
-function getUserChoicebyAuthor() {
-  var authorName = getSearchParam();
+function getUserChoicebyAuthor(param) {
   var searchByAuthorUrl = new URL(
-    baseBooksURL + "?author=" + authorName + "&api-key=" + apiBooksKey
+    baseBooksURL + "?author=" + param + "&api-key=" + apiBooksKey
   );
 
   getBookDetails(searchByAuthorUrl);
@@ -297,8 +282,9 @@ function renderTopSellers(queryRes) {
 }
 
 function renderTopFiveBookResultTemplate(result) {
-  return `<article class="media is-10 is-offset-2" >
-  <figure class="media-left">
+  return `
+  <article class="media is-10 is-offset-2" >
+    <figure class="media-left">
     <p class="image is-64x64">
     <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https://storage.googleapis.com/du-prd/books/images/${result.isbns[0].isbn13}.jpg" alt="${result.book_title}">
     </p>
