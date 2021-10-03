@@ -3,119 +3,109 @@ var apiBooksKey = "C1TDrksFmBX6rwRPyWGH6t6yIkYDeYxq";
 var baseMoviesURL = "https://api.nytimes.com/svc/movies/v2/reviews/search.json";
 var baseBooksURL = "https://api.nytimes.com/svc/books/v3/reviews.json";
 
-function showSearchPanel() {
+ function showSearchPanel() {
   $("#search-panel").show();
-  $("#search-results-panel").hide();
-  $("#favourites-panel").hide();
+  $("#top-books-tab-content").hide();
+  $("#movie-critics-tab-content").hide();
+  $("#favourites-tab-content").hide();
+} 
+
+function isMoviesSelected() {
+  return $("#movies-by-title").prop("checked");
 }
 
-//function to get checkbox value Movies
-function getCheckBoxMovies() {
-  $("#Movies").change(function () {
-    return $(this).prop("checked");
-  });
+function isBooksByAuthorSelected() {
+  return $("#books-by-author").prop("checked");
 }
 
-//function to get checkbox value Books
-function getCheckBoxBooks() {
-  $("#Books").click(function () {
-    return $(this).prop("checked");
-  });
+function isBooksByTitleSelected() {
+  return $("#books-by-title").prop("checked");
 }
 
-$(function () {
-  $("#search-btn").on("click", showSearchResultsPanel, function (event) {
-    event.preventDefault();
-    //search only by movie
-    if (getCheckBoxMovies()) {
-      getMoviesByParam();
-    } //search only by book
-    else if (getCheckBoxBooks()) {
-      getUserChoicebyAuthor();
-      getUserChoiceByTitle();
-    }
-    //search all
-    else {
-      getMoviesByParam();
-      getUserChoicebyAuthor();
-      getUserChoiceByTitle();
-    }
-  });
+function initiateSearch() {
+  $("#book-results-container").addClass("is-hidden");
+  $("#movie-results-container").addClass("is-hidden");
+  $("#movie-results").html("");
+  $("#book-results").html("");
 
-  // process form
-});
-//tests movies critics-picks
-$(function () {
-  $("#critics-btn").on("click", showSearchResultsPanel, function (event) {
-    event.preventDefault();
-    getMoviesPicks();
-  });
-});
-//tests books list best sellers
-$(function () {
-  $("#books-lists-btn").on("click", showSearchResultsPanel, function (event) {
-    event.preventDefault();
-    getTopSellers();
-  });
-});
-
-//get search parameters
-function getSearchParam() {
-  var param = $("#search").val();
-  var infoStatus = $("#infoStatus");
-  if (param == 0) {
-    infoStatus.text = "Please inform something to search for.";
-  } else {
-    return param;
+  var param = getSearchParam();
+  if(!isParameterValid(param)){
+    return;
   }
+      
+  if (isMoviesSelected()) {
+    $("#movie-results-container").removeClass("is-hidden");
+    getMoviesByTitle(param);
+  } else if (isBooksByAuthorSelected()) {
+    $("#book-results-container").removeClass("is-hidden");
+    getBooksByAuthor(param);
+  } else if (isBooksByTitleSelected()) {
+    $("#book-results-container").removeClass("is-hidden");
+    getBooksByTitle(param);
+  } else {
+    $("#movie-results-container").removeClass("is-hidden");
+    $("#book-results-container").removeClass("is-hidden");
+    getMoviesByTitle(param);
+    getBooksByTitle(param);
+  }
+}
+
+
+
+
+
+
+function isParameterValid(param){
+  var infoStatus = $("#infoStatus");
+  if (!param || param.trim().length === 0) {
+    infoStatus.text("Please inform something to search for");
+    return false;
+  } else {
+    infoStatus.text(" ");
+    return true;
+  }
+}
+
+function getSearchParam() {
+  return $("#search").val();
 }
 
 //calls the NYT Movies API and get the critics picks
 function getMoviesPicks() {
-  //  var criticsBtn = $("#critics-btn");
   var apiPicksUrl =
     baseMoviesURL + "?critics-pick=Y" + "&api-key=" + apiMoviesKey;
-  getMovieDetails(apiPicksUrl);
+  getMovieDetails(apiPicksUrl, "#movie-critics-tab-content");
 }
 
 //calls the NYT Movies API search movies by param
-function getMoviesByParam() {
-  var param = getSearchParam();
+function getMoviesByTitle(param) {
   var apiQueryUrl =
     baseMoviesURL + "?query=" + param + "&api-key=" + apiMoviesKey;
-  getMovieDetails(apiQueryUrl);
+  getMovieDetails(apiQueryUrl, "#movie-results");
 }
 
 // Function to get book details by user's choice of title
-function getUserChoiceByTitle() {
-  var userChoicebyTitle = getSearchParam();
-  console.log(userChoicebyTitle + " step1");
+function getBooksByTitle(param) {
   var searchByTitleUrl = new URL(
-    baseBooksURL + "?title=" + userChoicebyTitle + "&api-key=" + apiBooksKey
+    baseBooksURL + "?title=" + param + "&api-key=" + apiBooksKey
   );
   getBookDetails(searchByTitleUrl);
 }
 
 // Function to get user choice  by author's name
-
-function getUserChoicebyAuthor() {
-  var authorName = getSearchParam();
+function getBooksByAuthor(param) {
   var searchByAuthorUrl = new URL(
-    baseBooksURL + "?author=" + authorName + "&api-key=" + apiBooksKey
+    baseBooksURL + "?author=" + param + "&api-key=" + apiBooksKey
   );
-
   getBookDetails(searchByAuthorUrl);
 }
 
 // Function to get Books data
-
 function getTopSellers() {
   var topSellerBooksUrl = new URL(
     "https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=" +
       apiBooksKey
   );
-
-  console.log(topSellerBooksUrl);
 
   fetch(topSellerBooksUrl)
     .then(function (response) {
@@ -134,7 +124,6 @@ function getTopSellers() {
 }
 
 // Function to retrieve data for search by title/author
-
 function getBookDetails(searchURL) {
   fetch(searchURL)
     .then(function (response) {
@@ -145,7 +134,6 @@ function getBookDetails(searchURL) {
     })
     .then(function (queryRes) {
       console.log(queryRes.results);
-
       renderBookResult(queryRes);
     })
     .catch(function (error) {
@@ -153,7 +141,7 @@ function getBookDetails(searchURL) {
     });
 }
 
-function getMovieDetails(searchURL) {
+function getMovieDetails(searchURL, contentElementSelector) {
   fetch(searchURL)
     .then(function (response) {
       if (!response.ok) {
@@ -162,22 +150,23 @@ function getMovieDetails(searchURL) {
       return response.json();
     })
     .then(function (queryRes) {
-      if (queryRes.num_results > 0) {
-        renderMovieResult(queryRes);
-      }
+      renderMovieResult(queryRes, contentElementSelector);
     })
     .catch(function (error) {
       console.error(error);
     });
 }
 
-function renderMovieResult(queryRes) {
-  $("#movieResults").html("");
+function renderMovieResult(queryRes, contentElementSelector) {
   var innerHTML = "";
-  queryRes.results.forEach((result) => {
-    innerHTML += renderMovieResultTemplate(result);
-  });
-  $("#movieResults").html(innerHTML);
+  if (queryRes.num_results > 0) {
+    queryRes.results.forEach((result) => {
+      innerHTML += renderMovieResultTemplate(result);
+    });
+  } else {
+    innerHTML += "<h3>No Results Found!</h3>"
+  }
+  $(contentElementSelector).html(innerHTML);
 }
 
 // Function to display books by an author or title
@@ -208,20 +197,20 @@ function renderMovieResultTemplate(result) {
 }
 
 // Functionto display the top 5 bestsellers - books
-
 // Display results for the user's choice of book by title
-
 function renderBookResult(queryRes) {
-  $("#bookResults").html("");
   var innerHTML = "";
-  queryRes.results.forEach((result) => {
-    innerHTML += renderBookResultTemplate(result);
-  });
-  $("#bookResults").html(innerHTML);
+  if (queryRes.results.length > 0) {
+    queryRes.results.forEach((result) => {
+      innerHTML += renderBookResultTemplate(result);
+    });
+  } else {
+    innerHTML += "<h3>No Results Found!</h3>"
+  }
+  $("#book-results").html(innerHTML);
 }
 
 // Function to display books by an author or title
-
 function renderBookResultTemplate(result) {
   return `
   <div class="card">
@@ -247,27 +236,27 @@ function renderBookResultTemplate(result) {
 }
 
 /*  getTopSellers();  */
-
 // Function to display top five books
-
 function renderTopSellers(queryRes) {
-  $("#topBookResults").html("");
+  $("#top-books-tab-content").html("");
   var innerHTML = "";
   queryRes.slice(0, 5).forEach((result) => {
     innerHTML += renderTopFiveBookResultTemplate(result);
   });
-  $("#topBookResults").html(innerHTML);
+  $("#top-books-tab-content").html(innerHTML);
 }
 
 function renderTopFiveBookResultTemplate(result) {
-  return `<article class="media">
-  <figure class="media-left">
+  return `
+  <article class="media is-10 is-offset-2" >
+    <figure class="media-left">
     <p class="image is-64x64">
     <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https://storage.googleapis.com/du-prd/books/images/${result.isbns[0].isbn13}.jpg" alt="${result.book_title}">
     </p>
   </figure>
-  <div class="media-content">
-    <div class="content">
+  
+  <div class="media-content" class="column">
+    <div class="content" class="column">
       <p>
         <strong>${result.title}</strong><small><br>
         By: ${result.author}</small>
@@ -282,6 +271,54 @@ function renderTopFiveBookResultTemplate(result) {
 </article>`;
 }
 
-//Monitors the checkboxes values
-$(document).ready(getCheckBoxMovies);
-$(document).ready(getCheckBoxBooks);
+//on-ready init funcs
+$(function() {
+  showSearchPanel();
+
+  $("#search-btn").click(initiateSearch);
+  
+  // Books tab takes the user to the best sellers section
+  $("#topBooksTab").click(function () {
+    /*  event.preventDefault(); */
+     getTopSellers();
+     $("#search-panel").hide();
+     $("#top-books-tab-content").show();
+     $("#movie-critics-tab-content").hide();
+     $("#favourites-tab-content").hide();
+   });
+
+   // Home tab takes the user to the home page
+  $("#homePageTab").click(function () {
+    $("#search-panel").show();
+    $("#top-books-tab-content").hide();
+    $("#movie-critics-tab-content").hide();
+    $("#favourites-tab-content").hide();
+  });  
+
+  $("#movieCriticsTab").click(function () {
+    getMoviesPicks();
+    $("#search-panel").hide();
+    $("#top-books-tab-content").hide();
+    $("#movie-critics-tab-content").show();
+    $("#favourites-tab-content").hide();
+  });  
+
+  $("#favouritesTab").click(function () {
+    $("#search-panel").hide();
+    $("#top-books-tab-content").hide();
+    $("#movie-critics-tab-content").hide();
+    $("#favourites-tab-content").show();
+  });  
+
+  //tests movies critics-picks
+  // $("#critics-btn").click(getMoviesPicks);
+  //Monitors the radio'S
+  // $("#movies-by-title").change(initiateSearch);
+  // $("#books-by-author").change(initiateSearch);
+  // $("#books-by-title").change(initiateSearch);
+  // $("#books-and-movies").change(initiateSearch);
+})
+
+
+
+
