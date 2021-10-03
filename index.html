@@ -46,43 +46,47 @@
 
 
     <!--Home page div-->
-    <div id="search-panel" class="container">
-        <h1>Search by Title</h1>
-        <div class="search_box">
-            <input type="text" class="input_search" id="search" placeholder="What are you looking for?" />
-            <button type="button" id="search-btn">Search</button>
-             <button type="button" id="critics-btn">Critics</button>
-             <button type="button" id="books-lists-btn">Book Lists</button>
-             <div id="infoStatus"></div>
-        </div>
-           
-
-        <form>
-            <input type="radio" name="user-selection" id="books-by-author" checked="true" />
-            <label for="books-by-author">Books by Author</label><br />
-
-            <input type="radio" name="user-selection" id="books-by-title" />
-            <label for="books-by-title">Books by Title</label><br />
-
-            <input type="radio" name="user-selection" id="movies-by-title" />
-            <label for="movies-by-title">Movies by Title</label><br />
+    <div id="search-panel">
+        <div  class="container">
+            <h1>Search by Title</h1>
+            <div class="search_box">
+                <input type="text" class="input_search" id="search" placeholder="What are you looking for?" />
+                <button type="button" id="search-btn">Search</button>
+                 <button type="button" id="critics-btn">Critics</button>
+                 <button type="button" id="books-lists-btn">Book Lists</button>
+                 <div id="infoStatus"></div>
+            </div>
+               
+    
+            <form>
+                <input type="radio" name="user-selection" id="books-by-author" checked="true" />
+                <label for="books-by-author">Books by Author</label><br />
+    
+                <input type="radio" name="user-selection" id="books-by-title" />
+                <label for="books-by-title">Books by Title</label><br />
+    
+                <input type="radio" name="user-selection" id="movies-by-title" />
+                <label for="movies-by-title">Movies by Title</label><br />
+                
+                <input type="radio" name="user-selection" id="books-and-movies" value="Books & Movies" />
+                <label for="books-and-movies">Books & Movies</label><br />
+            </form>
+    
+            <div id="book-results-container" class="is-hidden">
+                <div><h3>Search Results - Books</h3></div>
+                <div id="book-results"></div>
+            </div>
             
-            <input type="radio" name="user-selection" id="books-and-movies" value="Books & Movies" />
-            <label for="books-and-movies">Books & Movies</label><br />
-        </form>
-
-
-        <div id="bookResults">
-
-
-
+            <div id="movie-results-container" class="is-hidden">
+                <div><h3>Search Results - Movies</h3></div>
+                <div id="movie-results">
+                    <!-- Mariane's movie results go here -->
+                </div>
+            </div>
+   
         </div>
-
-        <div id="movieResults">
-            <!-- Mariane's movie results go here -->
-        </div>
-
     </div>
+  
 
     
     <div id="topBookResultsPanel" class="box" class="columns">

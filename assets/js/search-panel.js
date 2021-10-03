@@ -23,18 +23,28 @@ function isBooksByTitleSelected() {
 }
 
 function initiateSearch() {
+  $("#book-results-container").addClass("is-hidden");
+  $("#movie-results-container").addClass("is-hidden");
+  $("#movie-results").html("");
+  $("#book-results").html("");
+  
   var param = getSearchParam();
   if(!isParameterValid(param)){
     return;
   }
       
   if (isMoviesSelected()) {
+    $("#movie-results-container").removeClass("is-hidden");
     getMoviesByTitle(param);
   } else if (isBooksByAuthorSelected()) {
+    $("#book-results-container").removeClass("is-hidden");
     getBooksByAuthor(param);
   } else if (isBooksByTitleSelected()) {
+    $("#book-results-container").removeClass("is-hidden");
     getBooksByTitle(param);
   } else {
+    $("#movie-results-container").removeClass("is-hidden");
+    $("#book-results-container").removeClass("is-hidden");
     getMoviesByTitle(param);
     getBooksByTitle(param);
   }
@@ -164,9 +174,7 @@ function getMovieDetails(searchURL) {
       return response.json();
     })
     .then(function (queryRes) {
-      if (queryRes.num_results > 0) {
-        renderMovieResult(queryRes);
-      }
+      renderMovieResult(queryRes);
     })
     .catch(function (error) {
       console.error(error);
@@ -174,12 +182,15 @@ function getMovieDetails(searchURL) {
 }
 
 function renderMovieResult(queryRes) {
-  $("#movieResults").html("");
   var innerHTML = "";
-  queryRes.results.forEach((result) => {
-    innerHTML += renderMovieResultTemplate(result);
-  });
-  $("#movieResults").html(innerHTML);
+  if (queryRes.num_results > 0) {
+    queryRes.results.forEach((result) => {
+      innerHTML += renderMovieResultTemplate(result);
+    });
+  } else {
+    innerHTML += "<h3>No Results Found!</h3>"
+  }
+  $("#movie-results").html(innerHTML);
 }
 
 // Function to display books by an author or title
@@ -212,12 +223,15 @@ function renderMovieResultTemplate(result) {
 // Functionto display the top 5 bestsellers - books
 // Display results for the user's choice of book by title
 function renderBookResult(queryRes) {
-  $("#bookResults").html("");
   var innerHTML = "";
-  queryRes.results.forEach((result) => {
-    innerHTML += renderBookResultTemplate(result);
-  });
-  $("#bookResults").html(innerHTML);
+  if (queryRes.results.length > 0) {
+    queryRes.results.forEach((result) => {
+      innerHTML += renderBookResultTemplate(result);
+    });
+  } else {
+    innerHTML += "<h3>No Results Found!</h3>"
+  }
+  $("#book-results").html(innerHTML);
 }
 
 // Function to display books by an author or title
