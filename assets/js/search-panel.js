@@ -3,36 +3,36 @@ var apiBooksKey = "C1TDrksFmBX6rwRPyWGH6t6yIkYDeYxq";
 var baseMoviesURL = "https://api.nytimes.com/svc/movies/v2/reviews/search.json";
 var baseBooksURL = "https://api.nytimes.com/svc/books/v3/reviews.json";
 
- function showSearchPanel() {
+function showSearchPanel() {
   $("#search-panel").show();
   $("#top-books-tab-content").hide();
   $("#movie-critics-tab-content").hide();
   $("#favourites-tab-content").hide();
-} 
-
+}
+//checks radiobutton for searching movies (by title)
 function isMoviesSelected() {
   return $("#movies-by-title").prop("checked");
 }
-
+//checks radiobutton for searching books by author
 function isBooksByAuthorSelected() {
   return $("#books-by-author").prop("checked");
 }
-
+//checks radiobutton for searching books by title
 function isBooksByTitleSelected() {
   return $("#books-by-title").prop("checked");
 }
-
-function initiateSearch(){ 
+//handles the search
+function initiateSearch() {
   $("#book-results-container").addClass("is-hidden");
   $("#movie-results-container").addClass("is-hidden");
   $("#movie-results").html("");
   $("#book-results").html("");
 
   var param = getSearchParam();
-  if(!isParameterValid(param)){
+  if (!isParameterValid(param)) {
     return;
   }
-      
+
   if (isMoviesSelected()) {
     $("#movie-results-container").removeClass("is-hidden");
     getMoviesByTitle(param);
@@ -49,8 +49,8 @@ function initiateSearch(){
     getBooksByTitle(param);
   }
 }
-
-function isParameterValid(param){
+//checks if some text is passed as a parameter
+function isParameterValid(param) {
   var infoStatus = $("#infoStatus");
   if (!param || param.trim().length === 0) {
     infoStatus.text("Please enter a title/author name");
@@ -60,7 +60,7 @@ function isParameterValid(param){
     return true;
   }
 }
-
+//get search parameters
 function getSearchParam() {
   return $("#search").val();
 }
@@ -135,7 +135,7 @@ function getBookDetails(searchURL) {
       console.error(error);
     });
 }
-
+//gets data for movie search (by title)
 function getMovieDetails(searchURL, contentElementSelector) {
   fetch(searchURL)
     .then(function (response) {
@@ -151,32 +151,34 @@ function getMovieDetails(searchURL, contentElementSelector) {
       console.error(error);
     });
 }
-
+//appends movie results into html
 function renderMovieResult(queryRes, contentElementSelector) {
   var innerHTML = "";
   if (queryRes.num_results > 0) {
     queryRes.results.forEach((result) => {
-      innerHTML += renderMovieResultTemplate(result);
+      var image = result.multimedia;
+      if (image === null || image === undefined) {
+        image = "./assets/images/no-image.jpg";
+      }
+      innerHTML += renderMovieResultTemplate(result, image);
     });
   } else {
-    innerHTML += "<h3>No Results Found!</h3>"
+    innerHTML += "<h3>No Results Found!</h3>";
   }
   $(contentElementSelector).html(innerHTML);
 }
 
-// Function to display books by an author or title
-//fix image - works for critics picks, but doesn't for searched movie?!
-//<div class="media">
-//      <div class="media-left">
-//      <figure class="image is-48x48">
-//      <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="${result.multimedia.src}" alt="${result.display_title}">
-//      </figure>
-//     </div>
-
-function renderMovieResultTemplate(result) {
+//displays movie results
+function renderMovieResultTemplate(result, image) {
   return `
   <div class="card">
     <div class="card-content">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-48x48">
+              <img src="${image.src}" alt="${result.display_title}">
+            </figure>
+          </div>
         <div class="media-content">
           <p class="title is-4">${result.display_title}</p>
           <p class="subtitle is-6">Rating: ${result.mpaa_rating}</p>
@@ -201,7 +203,7 @@ function renderBookResult(queryRes) {
       innerHTML += renderBookResultTemplate(result);
     });
   } else {
-    innerHTML += "<h3>No Results Found!</h3>"
+    innerHTML += "<h3>No Results Found!</h3>";
   }
   $("#book-results").html(innerHTML);
 }
@@ -230,7 +232,6 @@ function renderBookResultTemplate(result) {
     </div>
   </div>`;
 }
-
 
 // Function to display top five books
 function renderTopSellers(queryRes) {
@@ -262,29 +263,29 @@ function renderTopFiveBookResultTemplate(result) {
       </div>
    </div>
   </div>
-</div>`
+</div>`;
 }
 
 //on-ready init funcs
-$(function() {
+$(function () {
   showSearchPanel();
 
   $("#search-btn").click(initiateSearch);
-  
+
   // Books tab takes the user to the best sellers section
   $("#topBooksTab").click(function () {
     /*  event.preventDefault(); */
-     getTopSellers();
-     $("#search-panel").hide();
-     $("#top-books-tab-content").show();
-     $("#movie-critics-tab-content").hide();
-     $("#favourites-tab-content").hide();
-   });
+    getTopSellers();
+    $("#search-panel").hide();
+    $("#top-books-tab-content").show();
+    $("#movie-critics-tab-content").hide();
+    $("#favourites-tab-content").hide();
+  });
 
-   // Home tab takes the user to the home page
+  // Home tab takes the user to the home page
   $("#homePageTab").click(function () {
     showSearchPanel();
-   });  
+  });
 
   $("#movieCriticsTab").click(function () {
     getMoviesPicks();
@@ -292,14 +293,14 @@ $(function() {
     $("#top-books-tab-content").hide();
     $("#movie-critics-tab-content").show();
     $("#favourites-tab-content").hide();
-  });  
+  });
 
   $("#favouritesTab").click(function () {
     $("#search-panel").hide();
     $("#top-books-tab-content").hide();
     $("#movie-critics-tab-content").hide();
     $("#favourites-tab-content").show();
-  });  
+  });
 
   //tests movies critics-picks
   // $("#critics-btn").click(getMoviesPicks);
@@ -308,8 +309,4 @@ $(function() {
   // $("#books-by-author").change(initiateSearch);
   // $("#books-by-title").change(initiateSearch);
   // $("#books-and-movies").change(initiateSearch);
-})
-
-
-
-
+});
