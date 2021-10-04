@@ -80,3 +80,10 @@ main {
   background-color: white;
   border-radius: 10px;
 }
+
+#top-books-tab-content,
+#book-results-container,
+#movie-results-container
+{
+  font-weight: bolder;
+}

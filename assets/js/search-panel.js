@@ -22,7 +22,7 @@ function isBooksByTitleSelected() {
   return $("#books-by-title").prop("checked");
 }
 
-function initiateSearch() {
+function initiateSearch(){ 
   $("#book-results-container").addClass("is-hidden");
   $("#movie-results-container").addClass("is-hidden");
   $("#movie-results").html("");
@@ -50,15 +50,10 @@ function initiateSearch() {
   }
 }
 
-
-
-
-
-
 function isParameterValid(param){
   var infoStatus = $("#infoStatus");
   if (!param || param.trim().length === 0) {
-    infoStatus.text("Please inform something to search for");
+    infoStatus.text("Please enter a title/author name");
     return false;
   } else {
     infoStatus.text(" ");
@@ -201,6 +196,7 @@ function renderMovieResultTemplate(result) {
 function renderBookResult(queryRes) {
   var innerHTML = "";
   if (queryRes.results.length > 0) {
+    innerHTML = "Book Review/s";
     queryRes.results.forEach((result) => {
       innerHTML += renderBookResultTemplate(result);
     });
@@ -213,7 +209,7 @@ function renderBookResult(queryRes) {
 // Function to display books by an author or title
 function renderBookResultTemplate(result) {
   return `
-  <div class="card">
+    <div class="card">
     <div class="card-content">
       <div class="media">
         <div class="media-left">
@@ -235,11 +231,12 @@ function renderBookResultTemplate(result) {
   </div>`;
 }
 
-/*  getTopSellers();  */
+
 // Function to display top five books
 function renderTopSellers(queryRes) {
   $("#top-books-tab-content").html("");
   var innerHTML = "";
+  innerHTML = "The New York Times Best Sellers list";
   queryRes.slice(0, 5).forEach((result) => {
     innerHTML += renderTopFiveBookResultTemplate(result);
   });
@@ -249,7 +246,7 @@ function renderTopSellers(queryRes) {
 function renderTopFiveBookResultTemplate(result) {
   return `
   <div class="card">
-  <div class="card-content">
+    <div class="card-content">
     <div class="media">
       <div class="media-left">
         <figure class="image is-128x128">
@@ -261,7 +258,7 @@ function renderTopFiveBookResultTemplate(result) {
         <p class="subtitle is-6">${result.author}</p>
         <p class="subtitle is-6">Rank: ${result.rank}</p>
         <p class="subtitle is-6">${result.description}</p>
-        <p class="subtitle is-6">${result.published_date}</p>
+        <time datetime>${result.bestsellers_date}</time>
       </div>
    </div>
   </div>
@@ -286,11 +283,8 @@ $(function() {
 
    // Home tab takes the user to the home page
   $("#homePageTab").click(function () {
-    $("#search-panel").show();
-    $("#top-books-tab-content").hide();
-    $("#movie-critics-tab-content").hide();
-    $("#favourites-tab-content").hide();
-  });  
+    showSearchPanel();
+   });  
 
   $("#movieCriticsTab").click(function () {
     getMoviesPicks();
