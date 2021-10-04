@@ -151,13 +151,15 @@ function getMovieDetails(searchURL, contentElementSelector) {
       console.error(error);
     });
 }
+
 //appends movie results into html
 function renderMovieResult(queryRes, contentElementSelector) {
   var innerHTML = "";
   if (queryRes.num_results > 0) {
+    innerHTML = "The New York Times Critics' Picks";
     queryRes.results.forEach((result) => {
       var image = result.multimedia;
-      if (image === null || image === undefined) {
+      if (!image) {
         image = "./assets/images/no-image.jpg";
       }
       innerHTML += renderMovieResultTemplate(result, image);
@@ -175,23 +177,21 @@ function renderMovieResultTemplate(result, image) {
     <div class="card-content">
         <div class="media">
           <div class="media-left">
-            <figure class="image is-48x48">
-              <img src="${image.src}" alt="${result.display_title}">
+            <figure class="image is-128x128">
+            <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="${image.src}" alt="${result.display_title}">
             </figure>
           </div>
         <div class="media-content">
           <p class="title is-4">${result.display_title}</p>
           <p class="subtitle is-6">Rating: ${result.mpaa_rating}</p>
+          <p class="subtitle is-6">Rating: ${result.summary_short}</p>
+          <time datetime>Release Date: ${result.opening_date}</time>
         </div>
-      </div>
-      <div class="content">
-      ${result.summary_short}
-        <br>
-        <time datetime>Release Date: ${result.opening_date}</time>
       </div>
     </div>
   </div>`;
 }
+
 
 // Functionto display the top 5 bestsellers - books
 // Display results for the user's choice of book by title
@@ -254,17 +254,17 @@ function renderTopFiveBookResultTemplate(result) {
           <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https://storage.googleapis.com/du-prd/books/images/${result.isbns[0].isbn13}.jpg" alt="${result.book_title}">
         </figure>
       </div>
-      <div class="media-content">
-        <p class="title is-4">${result.title}</p>
+      <div class="media-content" id="book_id">
+        <p id="title" class="title is-4">${result.title}</p>
         <p class="subtitle is-6">${result.author}</p>
         <p class="subtitle is-6">Rank: ${result.rank}</p>
         <p class="subtitle is-6">${result.description}</p>
-        <time datetime>${result.bestsellers_date}</time>
-      </div>
-   </div>
+        </div>
+       </div>
   </div>
 </div>`;
 }
+
 
 //on-ready init funcs
 $(function () {
@@ -300,13 +300,9 @@ $(function () {
     $("#top-books-tab-content").hide();
     $("#movie-critics-tab-content").hide();
     $("#favourites-tab-content").show();
-  });
+  });  
+  
+})
 
-  //tests movies critics-picks
-  // $("#critics-btn").click(getMoviesPicks);
-  //Monitors the radio'S
-  // $("#movies-by-title").change(initiateSearch);
-  // $("#books-by-author").change(initiateSearch);
-  // $("#books-by-title").change(initiateSearch);
-  // $("#books-and-movies").change(initiateSearch);
-});
+
+

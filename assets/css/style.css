@@ -83,6 +83,18 @@ main {
 
 #top-books-tab-content,
 #book-results-container,
-#movie-results-container {
+#movie-results-container,
+#movie-critics-tab-content,
+#favourites-tab-content
+{
   font-weight: bolder;
+}
+
+
+.favBtn {
+  border-left: 1px solid black;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: #4f554e;
+  color:red;
 }
