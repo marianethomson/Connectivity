@@ -83,7 +83,6 @@ main {
 
 #top-books-tab-content,
 #book-results-container,
-#movie-results-container
-{
+#movie-results-container {
   font-weight: bolder;
 }
