@@ -248,27 +248,24 @@ function renderTopSellers(queryRes) {
 
 function renderTopFiveBookResultTemplate(result) {
   return `
-  <article class="media is-10 is-offset-2" >
-    <figure class="media-left">
-    <p class="image is-64x64">
-    <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https://storage.googleapis.com/du-prd/books/images/${result.isbns[0].isbn13}.jpg" alt="${result.book_title}">
-    </p>
-  </figure>
-  
-  <div class="media-content" class="column">
-    <div class="content" class="column">
-      <p>
-        <strong>${result.title}</strong><small><br>
-        By: ${result.author}</small>
-        <br>
-       ${result.description}
-      </p>
-    </div>
-    
-  <div class="media-right">
-    <button class="is-danger">&#x2764;</button>
+  <div class="card">
+  <div class="card-content">
+    <div class="media">
+      <div class="media-left">
+        <figure class="image is-128x128">
+          <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https://storage.googleapis.com/du-prd/books/images/${result.isbns[0].isbn13}.jpg" alt="${result.book_title}">
+        </figure>
+      </div>
+      <div class="media-content">
+        <p class="title is-4">${result.title}</p>
+        <p class="subtitle is-6">${result.author}</p>
+        <p class="subtitle is-6">Rank: ${result.rank}</p>
+        <p class="subtitle is-6">${result.description}</p>
+        <p class="subtitle is-6">${result.published_date}</p>
+      </div>
+   </div>
   </div>
-</article>`;
+</div>`
 }
 
 //on-ready init funcs
