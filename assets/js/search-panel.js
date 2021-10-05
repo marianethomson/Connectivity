@@ -11,7 +11,6 @@ function showSearchPanel() {
 }
 // HEAD
 
-
 //checks radiobutton for searching movies (by title)
 // 830f4152b0ca401236bc8208da54f77ab6285134
 function isMoviesSelected() {
@@ -26,8 +25,6 @@ function isBooksByTitleSelected() {
   return $("#books-by-title").prop("checked");
 }
 // HEAD
-
-
 
 //handles the search
 // 830f4152b0ca401236bc8208da54f77ab6285134
@@ -202,7 +199,6 @@ function renderMovieResultTemplate(result, image) {
   </div>`;
 }
 
-
 // Functionto display the top 5 bestsellers - books
 // Display results for the user's choice of book by title
 function renderBookResult(queryRes) {
@@ -275,7 +271,6 @@ function renderTopFiveBookResultTemplate(result) {
 </div>`;
 }
 
-
 //on-ready init funcs
 $(function () {
   showSearchPanel();
@@ -310,7 +305,7 @@ $(function () {
     $("#top-books-tab-content").hide();
     $("#movie-critics-tab-content").hide();
     $("#favourites-tab-content").show();
-// HEAD
+    // HEAD
   });
 
   // $("#addFavourite").on("click", function () {
@@ -350,12 +345,24 @@ $(function () {
 var favList = [];
 $(document).on("click", "#addFavourite", function () {
   //if (!$("span.favourite").length) {
-  favList.push($(this).attr("title"));
+  var title = $(this).attr("title");
+  if (!favList.includes(title)) {
+    favList.push(title);
+  }
+
+  localStorage.setItem("favouriteList", JSON.stringify(favList));
+
   //}
   console.log(favList);
   $(this).addClass("favourite");
 });
 function getFavourites() {
+  var listFavorite = localStorage.getItem("favouriteList");
+  // if (!listFavorite) {
+  //  favList = [];
+  // } else {
+  favList = JSON.parse(listFavorite);
+  // }
   var favListHtml = "";
   for (var i = 0; i < favList.length; i++) {
     console.log(favList[i]);
@@ -363,11 +370,5 @@ function getFavourites() {
   }
   $("#favourites").html("<ol>" + favListHtml + "</ol>");
 }
-
-  
-  
-
-
-
 
 // 830f4152b0ca401236bc8208da54f77ab6285134
