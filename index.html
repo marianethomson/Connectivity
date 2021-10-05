@@ -10,6 +10,7 @@
     <script src="./assets/js/search-panel.js"></script>
   <!--   <script src="./assets/js/search-results-panel.js"></script> -->
    <!--  <script src="./assets/js/favourites-panel.js"></script> -->
+   <script src="https://kit.fontawesome.com/0f1c1c749d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="./assets/css/style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
@@ -38,7 +39,7 @@
             <button id="movieCriticsTab" class="tablinks" onclick="getMoviesPicks()">
                 Critics Picks
             </button>
-            <button id="favouritesTab" class="tablinks" onclick="openCategorie(event, 'Books&Movies')">
+            <button id="favouritesTab" class="tablinks" onclick="getFavourites()">
                 Favourites
             </button>
         </div>
@@ -108,6 +109,10 @@
     <!--Favourites div-->
     <div id="favourites-tab-content">
         <h1>Favourites will be renderd here!</h1>
+        <section class="favourites" id="favourites">
+            
+        
+        </section>
     </div>
 
 </main>
