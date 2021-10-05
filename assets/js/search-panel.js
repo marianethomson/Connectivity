@@ -23,8 +23,6 @@ function isBooksByTitleSelected() {
 }
 //handles the search
 function initiateSearch() {
-  $("#book-results-container").addClass("is-hidden");
-  $("#movie-results-container").addClass("is-hidden");
   $("#movie-results").html("");
   $("#book-results").html("");
 
@@ -48,10 +46,11 @@ function initiateSearch() {
     getMoviesByTitle(param);
     getBooksByTitle(param);
   }
+  $("search-panel").addClass("is-hidden");
 }
 //checks if some text is passed as a parameter
 function isParameterValid(param) {
-  var infoStatus = $("#infoStatus");
+  var infoStatus = $("#info-status");
   if (!param || param.trim().length === 0) {
     infoStatus.text("Please enter a title/author name");
     return false;
@@ -171,34 +170,34 @@ function renderMovieResult(queryRes, contentElementSelector) {
 //displays movie results
 function renderMovieResultTemplate(result, image) {
   return `
-  <div class="card">
-    <div class="card-content">
-        <div class="media">
-          <div class="media-left">
-            <figure class="image is-48x48">
-              <img src="${image.src}" alt="${result.display_title}">
-            </figure>
-          </div>
-        <div class="media-content">
-          <p class="title is-4">${result.display_title}</p>
-          <p class="subtitle is-6">Rating: ${result.mpaa_rating}</p>
-        </div>
+  <article class="tile is-3 is-vertical box item-result">
+    <div class="tile-content">
+      <p class="title">${result.display_title}</p>
+      <div class="container">
+          <figure class="image is-128x128">
+            <img src="${image.src}" alt="${result.display_title}">
+          </figure>
       </div>
-      <div class="content">
-      ${result.summary_short}
-        <br>
+      <div class="conatiner">
+        <p class="subtitle">Rating: ${result.mpaa_rating}</p>
+        <p>${result.summary_short}</p>
         <time datetime>Release Date: ${result.opening_date}</time>
       </div>
+      <div class="media-left">
+        <button class="button addFavourite" > 
+          <span class="icon is-small">
+            <i class="fas fa-heart"></i>
+          </span>
+        </button>    
+      </div> 
     </div>
-  </div>`;
+  </article>`;
 }
 
-// Functionto display the top 5 bestsellers - books
 // Display results for the user's choice of book by title
 function renderBookResult(queryRes) {
   var innerHTML = "";
   if (queryRes.results.length > 0) {
-    innerHTML = "Book Review/s";
     queryRes.results.forEach((result) => {
       innerHTML += renderBookResultTemplate(result);
     });
@@ -211,33 +210,36 @@ function renderBookResult(queryRes) {
 // Function to display books by an author or title
 function renderBookResultTemplate(result) {
   return `
-    <div class="card">
-    <div class="card-content">
+  <article class="tile is-3 is-vertical box item-result">
+    <div class="tile-content">
+      <p class="title is-4">${result.book_title}</p>
+      <p class="subtitle is-5">By ${result.byline}</p>
       <div class="media">
         <div class="media-left">
-          <figure class="image is-48x48">
-            <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https:\/\/storage.googleapis.com\/du-prd\/books\/images\/${result.isbn13[0]}.jpg" alt="${result.book_title}">
+          <figure class="image is-96x96">
+            <img sonerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https:\/\/storage.googleapis.com\/du-prd\/books\/images\/${result.isbn13[0]}.jpg" alt="${result.book_title}">
           </figure>
-        </div>
+        </div>     
         <div class="media-content">
-          <p class="title is-4">${result.book_title}</p>
-          <p class="subtitle is-6">${result.byline}</p>
+          <p>${result.summary}</p>
+          <time datetime>Publication Date: ${result.publication_dt}</time>  
         </div>
       </div>
-      <div class="content">
-      ${result.summary}
-        <br>
-        <time datetime>${result.publication_dt}</time>
+      <div class="media-right">
+        <button class="button addFavourite"> 
+          <span class="icon is-small">
+            <i class="fas fa-heart"></i>
+          </span>
+        </button>    
       </div>
     </div>
-  </div>`;
+  </article>`;
 }
 
 // Function to display top five books
 function renderTopSellers(queryRes) {
   $("#top-books-tab-content").html("");
   var innerHTML = "";
-  innerHTML = "The New York Times Best Sellers list";
   queryRes.slice(0, 5).forEach((result) => {
     innerHTML += renderTopFiveBookResultTemplate(result);
   });
@@ -246,24 +248,31 @@ function renderTopSellers(queryRes) {
 
 function renderTopFiveBookResultTemplate(result) {
   return `
-  <div class="card">
-    <div class="card-content">
-    <div class="media">
+  <article class="tile is-4 is-vertical box item-result">
+    <div class="tile-content">
+      <p class="title is-4">${result.title}</p>
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-96x96">
+            <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https://storage.googleapis.com/du-prd/books/images/${result.isbns[0].isbn13}.jpg" alt="${result.book_title}">
+          </figure>
+        </div>     
+        <div class="media-content">
+          <p class="subtitle is-4">Author: ${result.author}</p>
+          <p class="subtitle is-4">Rank: ${result.rank}</p>
+          <p>${result.description}</p>
+          <time datetime>${result.bestsellers_date}</time>  
+        </div>
+      </div>
       <div class="media-left">
-        <figure class="image is-128x128">
-          <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https://storage.googleapis.com/du-prd/books/images/${result.isbns[0].isbn13}.jpg" alt="${result.book_title}">
-        </figure>
+        <button class="button addFavourite"> 
+          <span class="icon is-small">
+            <i class="fas fa-heart"></i>
+          </span>
+        </button>    
       </div>
-      <div class="media-content">
-        <p class="title is-4">${result.title}</p>
-        <p class="subtitle is-6">${result.author}</p>
-        <p class="subtitle is-6">Rank: ${result.rank}</p>
-        <p class="subtitle is-6">${result.description}</p>
-        <time datetime>${result.bestsellers_date}</time>
-      </div>
-   </div>
-  </div>
-</div>`;
+    </div>
+  </article>`;
 }
 
 //on-ready init funcs
@@ -271,6 +280,13 @@ $(function () {
   showSearchPanel();
 
   $("#search-btn").click(initiateSearch);
+
+  // Check for click events on the navbar burger icon
+  $(".navbar-burger").click(function () {
+    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+    $(".navbar-burger").toggleClass("is-active");
+    $(".navbar-menu").toggleClass("is-active");
+  });
 
   // Books tab takes the user to the best sellers section
   $("#topBooksTab").click(function () {
@@ -301,12 +317,38 @@ $(function () {
     $("#movie-critics-tab-content").hide();
     $("#favourites-tab-content").show();
   });
-
-  //tests movies critics-picks
-  // $("#critics-btn").click(getMoviesPicks);
-  //Monitors the radio'S
-  // $("#movies-by-title").change(initiateSearch);
-  // $("#books-by-author").change(initiateSearch);
-  // $("#books-by-title").change(initiateSearch);
-  // $("#books-and-movies").change(initiateSearch);
 });
+
+// Saving Search Items to Favourites
+function saveFavourites() {
+  var favList = [];
+
+  $(document).on("click", ".addFavourite", function () {
+    //if (!$("span.favourite").length) {
+    var title = $(this).attr("title");
+    if (!favList.includes(title)) {
+      favList.push(title);
+    }
+
+    localStorage.setItem("favouriteList", JSON.stringify(favList));
+
+    //}
+    console.log(favList);
+    $(this).addClass("favourite");
+  });
+}
+
+function getFavourites() {
+  var listFavorite = localStorage.getItem("favouriteList");
+  // if (!listFavorite) {
+  //  favList = [];
+  // } else {
+  favList = JSON.parse(listFavorite);
+  // }
+  var favListHtml = "";
+  for (var i = 0; i < favList.length; i++) {
+    console.log(favList[i]);
+    favListHtml += "<li>" + favList[i] + "</li>";
+  }
+  $("#favourites").html("<ol>" + favListHtml + "</ol>");
+}
