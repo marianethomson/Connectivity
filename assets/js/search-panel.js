@@ -9,19 +9,28 @@ function showSearchPanel() {
   $("#movie-critics-tab-content").hide();
   $("#favourites-tab-content").hide();
 }
+// HEAD
 
+
+//checks radiobutton for searching movies (by title)
+// 830f4152b0ca401236bc8208da54f77ab6285134
 function isMoviesSelected() {
   return $("#movies-by-title").prop("checked");
 }
-
+//checks radiobutton for searching books by author
 function isBooksByAuthorSelected() {
   return $("#books-by-author").prop("checked");
 }
-
+//checks radiobutton for searching books by title
 function isBooksByTitleSelected() {
   return $("#books-by-title").prop("checked");
 }
+// HEAD
 
+
+
+//handles the search
+// 830f4152b0ca401236bc8208da54f77ab6285134
 function initiateSearch() {
   $("#book-results-container").addClass("is-hidden");
   $("#movie-results-container").addClass("is-hidden");
@@ -50,6 +59,7 @@ function initiateSearch() {
   }
 }
 
+//checks if some text is passed as a parameter
 function isParameterValid(param) {
   var infoStatus = $("#infoStatus");
   if (!param || param.trim().length === 0) {
@@ -60,7 +70,7 @@ function isParameterValid(param) {
     return true;
   }
 }
-
+//get search parameters
 function getSearchParam() {
   return $("#search").val();
 }
@@ -135,7 +145,7 @@ function getBookDetails(searchURL) {
       console.error(error);
     });
 }
-
+//gets data for movie search (by title)
 function getMovieDetails(searchURL, contentElementSelector) {
   fetch(searchURL)
     .then(function (response) {
@@ -152,11 +162,17 @@ function getMovieDetails(searchURL, contentElementSelector) {
     });
 }
 
+//appends movie results into html
 function renderMovieResult(queryRes, contentElementSelector) {
   var innerHTML = "";
   if (queryRes.num_results > 0) {
+    innerHTML = "The New York Times Critics' Picks";
     queryRes.results.forEach((result) => {
-      innerHTML += renderMovieResultTemplate(result);
+      var image = result.multimedia;
+      if (!image) {
+        image = "./assets/images/no-image.jpg";
+      }
+      innerHTML += renderMovieResultTemplate(result, image);
     });
   } else {
     innerHTML += "<h3>No Results Found!</h3>";
@@ -164,32 +180,28 @@ function renderMovieResult(queryRes, contentElementSelector) {
   $(contentElementSelector).html(innerHTML);
 }
 
-// Function to display books by an author or title
-//fix image - works for critics picks, but doesn't for searched movie?!
-//<div class="media">
-//      <div class="media-left">
-//      <figure class="image is-48x48">
-//      <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="${result.multimedia.src}" alt="${result.display_title}">
-//      </figure>
-//     </div>
-
-function renderMovieResultTemplate(result) {
+//displays movie results
+function renderMovieResultTemplate(result, image) {
   return `
   <div class="card">
     <div class="card-content">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-128x128">
+            <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="${image.src}" alt="${result.display_title}">
+            </figure>
+          </div>
         <div class="media-content">
           <p class="title is-4">${result.display_title} </p> <span title="${result.display_title}" class="addFavourite"  id="addFavourite" ><i class="far fa-heart"></i></span>
           <p class="subtitle is-6">Rating: ${result.mpaa_rating}</p>
+          <p class="subtitle is-6">Rating: ${result.summary_short}</p>
+          <time datetime>Release Date: ${result.opening_date}</time>
         </div>
-      </div>
-      <div class="content">
-      ${result.summary_short}
-        <br>
-        <time datetime>Release Date: ${result.opening_date}</time>
       </div>
     </div>
   </div>`;
 }
+
 
 // Functionto display the top 5 bestsellers - books
 // Display results for the user's choice of book by title
@@ -252,17 +264,17 @@ function renderTopFiveBookResultTemplate(result) {
           <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="https://storage.googleapis.com/du-prd/books/images/${result.isbns[0].isbn13}.jpg" alt="${result.book_title}">
         </figure>
       </div>
-      <div class="media-content">
-        <p class="title is-4">${result.title}</p>
+      <div class="media-content" id="book_id">
+        <p id="title" class="title is-4">${result.title}</p>
         <p class="subtitle is-6">${result.author}</p>
         <p class="subtitle is-6">Rank: ${result.rank}</p>
         <p class="subtitle is-6">${result.description}</p>
-        <time datetime>${result.bestsellers_date}</time>
-      </div>
-   </div>
+        </div>
+       </div>
   </div>
 </div>`;
 }
+
 
 //on-ready init funcs
 $(function () {
@@ -298,6 +310,7 @@ $(function () {
     $("#top-books-tab-content").hide();
     $("#movie-critics-tab-content").hide();
     $("#favourites-tab-content").show();
+// HEAD
   });
 
   // $("#addFavourite").on("click", function () {
@@ -350,3 +363,11 @@ function getFavourites() {
   }
   $("#favourites").html("<ol>" + favListHtml + "</ol>");
 }
+
+  
+  
+
+
+
+
+// 830f4152b0ca401236bc8208da54f77ab6285134
