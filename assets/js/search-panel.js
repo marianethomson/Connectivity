@@ -189,9 +189,9 @@ function renderMovieResultTemplate(result, image) {
             </figure>
           </div>
         <div class="media-content">
-          <p class="title is-4">${result.display_title} </p> <span title="${result.display_title}" class="addFavourite"  id="addFavourite" ><i class="far fa-heart"></i></span>
-          <p class="subtitle is-6">Rating: ${result.mpaa_rating}</p>
-          <p class="subtitle is-6">Rating: ${result.summary_short}</p>
+          <p class="title is-4">${result.display_title}</p>
+          <p class="subtitle is-6">Rating:  ${result.mpaa_rating}</p>
+          <p class="subtitle is-6">Summary:  ${result.summary_short}</p>
           <time datetime>Release Date: ${result.opening_date}</time>
         </div>
       </div>
