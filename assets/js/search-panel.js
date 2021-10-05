@@ -189,9 +189,9 @@ function renderMovieResultTemplate(result, image) {
             </figure>
           </div>
         <div class="media-content">
-          <p class="title is-4">${result.display_title}</p>
-          <p class="subtitle is-6">Rating:  ${result.mpaa_rating}</p>
-          <p class="subtitle is-6">Summary:  ${result.summary_short}</p>
+          <p class="title is-4">${result.display_title} </p> <span title="${result.display_title}" class="addFavourite"  id="addFavourite" ><i class="far fa-heart"></i></span>
+          <p class="subtitle is-6">Rating: ${result.mpaa_rating}</p>
+          <p class="subtitle is-6">Rating: ${result.summary_short}</p>
           <time datetime>Release Date: ${result.opening_date}</time>
         </div>
       </div>
@@ -307,41 +307,9 @@ $(function () {
     $("#favourites-tab-content").show();
     // HEAD
   });
-
-  // $("#addFavourite").on("click", function () {
-  //   //$('.different-div').click();
-  //   console.log("dsddfdfdfd");
-  // });
-
-  /*
-  var favObject = $(document).on("click", "#addFavourite", function () {
-    console.log($(this).attr("title"));
-  });
-
-  localStorage.setItem("favObject", JSON.stringify(favObject));
-
-  var retrieveFavObject = localStorage.getItem("favObject");
-  console.log("retrieveFavObject", JSON.parse(retrieveFavObject));
-  */
-
-  //tests movies critics-picks
-  // $("#critics-btn").click(getMoviesPicks);
-  //Monitors the radio'S
-  // $("#movies-by-title").change(initiateSearch);
-  // $("#books-by-author").change(initiateSearch);
-  // $("#books-by-title").change(initiateSearch);
-  // $("#books-and-movies").change(initiateSearch);
 });
 
-//Favourites
-// var save_button = document.getElementById("Save");
-// save_button.onclick = saveData;
-
-// function saveData() {
-//   var input = document.getElementById("saveServer");
-//   localStorage.setItem("server", input.value);
-//   var storedValue = localStorage.getItem("server");
-// }
+// Saving Search Items to Favourites
 var favList = [];
 $(document).on("click", "#addFavourite", function () {
   //if (!$("span.favourite").length) {
