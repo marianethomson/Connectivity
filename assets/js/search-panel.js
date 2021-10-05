@@ -226,7 +226,7 @@ function renderBookResultTemplate(result) {
           </figure>
         </div>
         <div class="media-content">
-          <p class="title is-4">${result.book_title}</p>
+          <p class="title is-4">${result.book_title}</p> <span title="${result.book_title}" class="addFavourite"  id="addFavourite" ><i class="far fa-heart"></i></span>
           <p class="subtitle is-6">${result.byline}</p>
         </div>        
       </div>
@@ -261,7 +261,7 @@ function renderTopFiveBookResultTemplate(result) {
         </figure>
       </div>
       <div class="media-content" id="book_id">
-        <p id="title" class="title is-4">${result.title}</p>
+        <p id="title" class="title is-4">${result.title}</p> <span title="${result.title}" class="addFavourite"  id="addFavourite" ><i class="far fa-heart"></i></span>
         <p class="subtitle is-6">${result.author}</p>
         <p class="subtitle is-6">Rank: ${result.rank}</p>
         <p class="subtitle is-6">${result.description}</p>
