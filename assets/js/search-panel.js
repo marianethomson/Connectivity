@@ -9,10 +9,8 @@ function showSearchPanel() {
   $("#movie-critics-tab-content").hide();
   $("#favourites-tab-content").hide();
 }
-// HEAD
 
 //checks radiobutton for searching movies (by title)
-// 830f4152b0ca401236bc8208da54f77ab6285134
 function isMoviesSelected() {
   return $("#movies-by-title").prop("checked");
 }
@@ -24,10 +22,8 @@ function isBooksByAuthorSelected() {
 function isBooksByTitleSelected() {
   return $("#books-by-title").prop("checked");
 }
-// HEAD
 
 //handles the search
-// 830f4152b0ca401236bc8208da54f77ab6285134
 function initiateSearch() {
   $("#book-results-container").addClass("is-hidden");
   $("#movie-results-container").addClass("is-hidden");
@@ -338,5 +334,3 @@ function getFavourites() {
   }
   $("#favourites").html("<ol>" + favListHtml + "</ol>");
 }
-
-// 830f4152b0ca401236bc8208da54f77ab6285134
