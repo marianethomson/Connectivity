@@ -20,5 +20,5 @@ Screen shots:
 4. ![Favourites](./assets/images/)
 
 
-1. ![Deployed application]: https://chaitra-srinivas.github.io/
+1. ![Deployed application]: https://chaitra-srinivas.github.io/The-Entertainment-Hub/
 2. ![Github link]: https://github.com/chaitra-srinivas/The-Entertainment-Hub/
