@@ -308,25 +308,23 @@ $(function () {
 // Saving Search Items to Favourites
 var favList = [];
 $(document).on("click", "#addFavourite", function () {
-  //if (!$("span.favourite").length) {
-  var title = $(this).attr("title");
+    var title = $(this).attr("title");
   if (!favList.includes(title)) {
     favList.push(title);
   }
-
   localStorage.setItem("favouriteList", JSON.stringify(favList));
-
-  //}
   console.log(favList);
   $(this).addClass("favourite");
 });
+
 function getFavourites() {
   var listFavorite = localStorage.getItem("favouriteList");
-  // if (!listFavorite) {
-  //  favList = [];
-  // } else {
-  favList = JSON.parse(listFavorite);
-  // }
+  if (listFavorite) {
+    favList = JSON.parse(listFavorite);
+  }
+    else {
+      favList = [];
+  }
   var favListHtml = "";
   for (var i = 0; i < favList.length; i++) {
     console.log(favList[i]);
