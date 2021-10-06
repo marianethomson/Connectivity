@@ -9,6 +9,7 @@ function showSearchPanel() {
   $("#movie-critics-tab-content").hide();
   $("#favourites-tab-content").hide();
 }
+
 //checks radiobutton for searching movies (by title)
 function isMoviesSelected() {
   return $("#movies-by-title").prop("checked");
@@ -21,6 +22,7 @@ function isBooksByAuthorSelected() {
 function isBooksByTitleSelected() {
   return $("#books-by-title").prop("checked");
 }
+
 //handles the search
 function initiateSearch() {
   $("#movie-results").html("");
@@ -48,6 +50,7 @@ function initiateSearch() {
   }
   $("search-panel").addClass("is-hidden");
 }
+
 //checks if some text is passed as a parameter
 function isParameterValid(param) {
   var infoStatus = $("#info-status");
@@ -150,13 +153,15 @@ function getMovieDetails(searchURL, contentElementSelector) {
       console.error(error);
     });
 }
+
 //appends movie results into html
 function renderMovieResult(queryRes, contentElementSelector) {
   var innerHTML = "";
   if (queryRes.num_results > 0) {
+    innerHTML = "The New York Times Critics' Picks";
     queryRes.results.forEach((result) => {
       var image = result.multimedia;
-      if (image === null || image === undefined) {
+      if (!image) {
         image = "./assets/images/no-image.jpg";
       }
       innerHTML += renderMovieResultTemplate(result, image);
@@ -273,6 +278,7 @@ function renderTopFiveBookResultTemplate(result) {
       </div>
     </div>
   </article>`;
+
 }
 
 //on-ready init funcs
@@ -316,35 +322,31 @@ $(function () {
     $("#top-books-tab-content").hide();
     $("#movie-critics-tab-content").hide();
     $("#favourites-tab-content").show();
+    // HEAD
   });
 });
 
 // Saving Search Items to Favourites
-function saveFavourites() {
-  var favList = [];
-
-  $(document).on("click", ".addFavourite", function () {
-    //if (!$("span.favourite").length) {
+var favList = [];
+$(document).on("click", "#addFavourite", function () {
     var title = $(this).attr("title");
-    if (!favList.includes(title)) {
-      favList.push(title);
-    }
-
-    localStorage.setItem("favouriteList", JSON.stringify(favList));
-
-    //}
-    console.log(favList);
-    $(this).addClass("favourite");
-  });
-}
+  if (!favList.includes(title)) {
+    favList.push(title);
+  }
+  localStorage.setItem("favouriteList", JSON.stringify(favList));
+  console.log(favList);
+  $(this).addClass("favourite");
+});
 
 function getFavourites() {
   var listFavorite = localStorage.getItem("favouriteList");
-  // if (!listFavorite) {
-  //  favList = [];
-  // } else {
-  favList = JSON.parse(listFavorite);
-  // }
+  if (listFavorite) {
+    favList = JSON.parse(listFavorite);
+  }
+    else {
+      favList = [];
+  }
+
   var favListHtml = "";
   for (var i = 0; i < favList.length; i++) {
     console.log(favList[i]);

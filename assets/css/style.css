@@ -65,3 +65,25 @@ span.addFavourite.favourite {
 #favourites-tab-content {
   font-weight: bolder;
 }
+span.addFavourite {
+  color: red;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 20px;
+}
+span.addFavourite.favourite {
+  color: #000;
+}
+#movie-results-container,
+#movie-critics-tab-content,
+#favourites-tab-content {
+  font-weight: bolder;
+}
+
+.favBtn {
+  border-left: 1px solid black;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: #4f554e;
+  color: red;
+}
