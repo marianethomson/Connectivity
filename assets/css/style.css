@@ -1,104 +1,51 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: poppins;
+  font-family: "Lato", sans-serif;
 }
 
-header {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
+.navbar {
+  background-color: #29539b;
+  background-image: linear-gradient(315deg, #29539b 0%, #1e3b70 74%);
   padding: 10px;
-  justify-content: space-around;
-  margin: auto;
-  width: 90%;
-  color: black;
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-  border-radius: 10px;
 }
 
-.logo img {
-  height: 60px;
-  margin-right: 10px;
-}
-
-/* Style the tab */
-/* .tabmenu {
+.results {
   display: flex;
-  width: 100%;
-  margin: auto;
-  margin-top: 20px;
-  padding: 10px;
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-  border-radius: 10px;
-} */
-
-/* Style the buttons that are used to open the tab content */
-.tabmenu button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
 }
 
-/* Change background color of buttons on hover */
-.tabmenu button:hover {
-  background-color: #ddd;
+.item-result {
+  flex-grow: 2;
+  flex-shrink: 3;
+  flex-basis: auto;
 }
 
-/* Create an active/current tablink class */
-.tabmenu button.active {
-  background-color: #ccc;
-}
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
-}
-
-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.container {
-  width: 80%;
-  border: 2px solid black;
-  margin: auto;
-  margin-top: 20px;
-  padding: 10px;
-  background-color: white;
-  border-radius: 10px;
-}
-
-#top-books-tab-content,
-#book-results-container,
-#movie-results-container {
-  font-weight: bolder;
-}
 span.addFavourite {
-  color: red;
+  color: #29539b;
   cursor: pointer;
   display: inline-block;
   font-size: 20px;
 }
 span.addFavourite.favourite {
-  color: #000;
+  color: red;
 }
-#movie-results-container,
-#movie-critics-tab-content,
-#favourites-tab-content {
-  font-weight: bolder;
+
+.navbar-item,
+.navbar-burger > span {
+  color: white;
+}
+
+.brand {
+  font-size: larger;
+  vertical-align: middle;
+}
+.logo {
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
+  vertical-align: middle;
 }
 
 .favBtn {
@@ -107,4 +54,10 @@ span.addFavourite.favourite {
   border-bottom-right-radius: 15px;
   background-color: #4f554e;
   color: red;
+}
+
+#movie-results-container,
+#movie-critics-tab-content,
+#favourites-tab-content {
+  font-weight: bolder;
 }
