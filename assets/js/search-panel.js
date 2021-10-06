@@ -320,7 +320,6 @@ $(function () {
     $("#top-books-tab-content").hide();
     $("#movie-critics-tab-content").hide();
     $("#favourites-tab-content").show();
-    // HEAD
   });
 });
 
