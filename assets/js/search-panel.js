@@ -325,10 +325,13 @@ function getFavourites() {
     else {
       favList = [];
   }
+  $("#dynamicFavouriteList").empty();
   var favListHtml = "";
   for (var i = 0; i < favList.length; i++) {
     console.log(favList[i]);
     favListHtml += "<li>" + favList[i] + "</li>";
   }
-  $("#favourites").html("<ol>" + favListHtml + "</ol>");
+  /* $("#favourites").html("<ol>" + favListHtml + "</ol>"); */
+  $("#dynamicFavouriteList").append(favListHtml);
+
 }
