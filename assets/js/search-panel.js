@@ -158,7 +158,6 @@ function getMovieDetails(searchURL, contentElementSelector) {
 function renderMovieResult(queryRes, contentElementSelector) {
   var innerHTML = "";
   if (queryRes.num_results > 0) {
-    innerHTML = "The New York Times Critics' Picks";
     queryRes.results.forEach((result) => {
       var image = result.multimedia;
       if (!image) {
@@ -189,8 +188,8 @@ function renderMovieResultTemplate(result, image) {
         <time datetime>Release Date: ${result.opening_date}</time>
       </div>
       <div class="media-left">
-        <button class="button addFavourite" > 
-          <span class="icon is-small">
+        <button class="button"> 
+          <span title="${result.display_title}" class="icon is-small addFavourite" id="addFavourite">
             <i class="fas fa-heart"></i>
           </span>
         </button>    
@@ -231,8 +230,8 @@ function renderBookResultTemplate(result) {
         </div>
       </div>
       <div class="media-right">
-        <button class="button addFavourite"> 
-          <span class="icon is-small">
+        <button class="button> 
+          <span title="${result.book_title}" class="icon is-small addFavourite" id="addFavourite">
             <i class="fas fa-heart"></i>
           </span>
         </button>    
@@ -270,15 +269,14 @@ function renderTopFiveBookResultTemplate(result) {
         </div>
       </div>
       <div class="media-left">
-        <button class="button addFavourite"> 
-          <span class="icon is-small">
+        <button class="button addFavourite" id="addFavourite"> 
+          <span title="${result.title}" class="icon is-small addFavourite" id="addFavourite">
             <i class="fas fa-heart"></i>
           </span>
         </button>    
       </div>
     </div>
   </article>`;
-
 }
 
 //on-ready init funcs
@@ -296,7 +294,6 @@ $(function () {
 
   // Books tab takes the user to the best sellers section
   $("#topBooksTab").click(function () {
-    /*  event.preventDefault(); */
     getTopSellers();
     $("#search-panel").hide();
     $("#top-books-tab-content").show();
@@ -318,6 +315,7 @@ $(function () {
   });
 
   $("#favouritesTab").click(function () {
+    getFavourites();
     $("#search-panel").hide();
     $("#top-books-tab-content").hide();
     $("#movie-critics-tab-content").hide();
@@ -329,12 +327,11 @@ $(function () {
 // Saving Search Items to Favourites
 var favList = [];
 $(document).on("click", "#addFavourite", function () {
-    var title = $(this).attr("title");
+  var title = $(this).attr("title");
   if (!favList.includes(title)) {
     favList.push(title);
   }
   localStorage.setItem("favouriteList", JSON.stringify(favList));
-  console.log(favList);
   $(this).addClass("favourite");
 });
 
@@ -342,15 +339,13 @@ function getFavourites() {
   var listFavorite = localStorage.getItem("favouriteList");
   if (listFavorite) {
     favList = JSON.parse(listFavorite);
+  } else {
+    favList = [];
   }
-    else {
-      favList = [];
-  }
-
   var favListHtml = "";
   for (var i = 0; i < favList.length; i++) {
-    console.log(favList[i]);
     favListHtml += "<li>" + favList[i] + "</li>";
   }
-  $("#favourites").html("<ol>" + favListHtml + "</ol>");
+  $("#favourites-head").removeClass("is-hidden");
+  $("#favourites-tab-content").html("<ol>" + favListHtml + "</ol>");
 }
