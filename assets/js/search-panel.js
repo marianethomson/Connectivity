@@ -72,8 +72,8 @@ function getSearchParam() {
 function getMoviesPicks() {
   var apiPicksUrl =
     baseMoviesURL + "?critics-pick=Y" + "&api-key=" + apiMoviesKey;
-getMovieDetails(apiPicksUrl, "#movie-critics-tab-content");
-/* getMovieDetails(apiPicksUrl, "#movie-critics-results-panel"); */
+  getMovieDetails(apiPicksUrl, "#movie-critics-tab-content");
+  /* getMovieDetails(apiPicksUrl, "#movie-critics-results-panel"); */
 }
 
 //calls the NYT Movies API search movies by param
@@ -160,7 +160,6 @@ function getMovieDetails(searchURL, contentElementSelector) {
 function renderMovieResult(queryRes, contentElementSelector) {
   var innerHTML = "";
   if (queryRes.num_results > 0) {
-    // innerHTML = "<h1>The New York Times Critics' Picks</h1></br>"; 
     queryRes.results.forEach((result) => {
       var image = result.multimedia;
       if (!image) {
@@ -195,10 +194,9 @@ function renderMovieResultTemplate(result, image) {
     </div>
    </div>
 </div>
-`
+`;
 }
 
-// Functionto display the top 5 bestsellers - books
 // Display results for the user's choice of book by title
 function renderBookResult(queryRes) {
   var innerHTML = "";
@@ -242,7 +240,7 @@ function renderBookResultTemplate(result) {
 function renderTopSellers(queryRes) {
   $("#top-books-tab-content").html("");
   var innerHTML = "";
-  innerHTML = "The New York Times Best Sellers list";
+  innerHTML = "<h2>The New York Times Best Sellers</h2>";
   queryRes.slice(0, 5).forEach((result) => {
     innerHTML += renderTopFiveBookResultTemplate(result);
   });
@@ -310,7 +308,7 @@ $(function () {
 // Saving Search Items to Favourites
 var favList = [];
 $(document).on("click", "#addFavourite", function () {
-    var title = $(this).attr("title");
+  var title = $(this).attr("title");
   if (!favList.includes(title)) {
     favList.push(title);
   }
@@ -323,9 +321,8 @@ function getFavourites() {
   var listFavorite = localStorage.getItem("favouriteList");
   if (listFavorite) {
     favList = JSON.parse(listFavorite);
-  }
-    else {
-      favList = [];
+  } else {
+    favList = [];
   }
   var favListHtml = "";
   for (var i = 0; i < favList.length; i++) {
