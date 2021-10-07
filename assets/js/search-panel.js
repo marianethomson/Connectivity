@@ -178,7 +178,7 @@ function renderMovieResult(queryRes, contentElementSelector) {
 function renderMovieResultTemplate(result, image) {
   return `
   
-  <div class="card column is-one-third">
+  <div class="container card column is-one-third">
   <div class="card-image">
     <figure class="image is-4by3">
     <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="${image.src}" alt="${result.display_title}">
@@ -189,7 +189,7 @@ function renderMovieResultTemplate(result, image) {
       <div class="media-content">
       <p class="title is-4">${result.display_title} </p> <span title="${result.display_title}" class="addFavourite"  id="addFavourite" ><i class="far fa-heart"></i></span>
       <p class="subtitle is-6">Rating: ${result.mpaa_rating}</p>
-      <p class="subtitle is-6">Rating: ${result.summary_short}</p>
+      <p class="subtitle is-12">Rating: ${result.summary_short}</p>
       <time datetime>Release Date: ${result.opening_date}</time>
       </div>
     </div>
