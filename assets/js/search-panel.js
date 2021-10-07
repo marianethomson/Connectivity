@@ -72,7 +72,8 @@ function getSearchParam() {
 function getMoviesPicks() {
   var apiPicksUrl =
     baseMoviesURL + "?critics-pick=Y" + "&api-key=" + apiMoviesKey;
-  getMovieDetails(apiPicksUrl, "#movie-critics-tab-content");
+getMovieDetails(apiPicksUrl, "#movie-critics-tab-content");
+/* getMovieDetails(apiPicksUrl, "#movie-critics-results-panel"); */
 }
 
 //calls the NYT Movies API search movies by param
@@ -159,7 +160,7 @@ function getMovieDetails(searchURL, contentElementSelector) {
 function renderMovieResult(queryRes, contentElementSelector) {
   var innerHTML = "";
   if (queryRes.num_results > 0) {
-    innerHTML = "The New York Times Critics' Picks";
+    // innerHTML = "<h1>The New York Times Critics' Picks</h1></br>"; 
     queryRes.results.forEach((result) => {
       var image = result.multimedia;
       if (!image) {
@@ -176,23 +177,25 @@ function renderMovieResult(queryRes, contentElementSelector) {
 //displays movie results
 function renderMovieResultTemplate(result, image) {
   return `
-  <div class="card">
-    <div class="card-content">
-        <div class="media">
-          <div class="media-left">
-            <figure class="image is-128x128">
-            <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="${image.src}" alt="${result.display_title}">
-            </figure>
-          </div>
-        <div class="media-content">
-          <p class="title is-4">${result.display_title} </p> <span title="${result.display_title}" class="addFavourite"  id="addFavourite" ><i class="far fa-heart"></i></span>
-          <p class="subtitle is-6">Rating: ${result.mpaa_rating}</p>
-          <p class="subtitle is-6">Rating: ${result.summary_short}</p>
-          <time datetime>Release Date: ${result.opening_date}</time>
-        </div>
+  
+  <div class="container card column is-one-third">
+  <div class="card-image">
+    <figure class="image is-4by3">
+    <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="${image.src}" alt="${result.display_title}">
+    </figure>
+  </div>
+  <div class="card-content">
+    <div class="media">
+      <div class="media-content">
+      <p class="title is-4">${result.display_title} </p> <span title="${result.display_title}" class="addFavourite"  id="addFavourite" ><i class="far fa-heart"></i></span>
+      <p class="subtitle is-6">Rating: ${result.mpaa_rating}</p>
+      <p class="subtitle is-12">Rating: ${result.summary_short}</p>
+      <time datetime>Release Date: ${result.opening_date}</time>
       </div>
     </div>
-  </div>`;
+   </div>
+</div>
+`
 }
 
 // Functionto display the top 5 bestsellers - books
@@ -330,5 +333,5 @@ function getFavourites() {
     console.log(favList[i]);
     favListHtml += "<li>" + favList[i] + "</li>";
   }
-  $("#favourites").html("<ol>" + favListHtml + "</ol>");
+  $("#favourites").html("<ul>" + favListHtml + "</ul>");
 }

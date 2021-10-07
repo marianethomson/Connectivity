@@ -11,7 +11,7 @@ header {
   padding: 10px;
   justify-content: space-around;
   margin: auto;
-  width: 90%;
+  width: 100%;
   color: black;
   overflow: hidden;
   border: 1px solid #ccc;
@@ -22,6 +22,7 @@ header {
 .logo img {
   height: 60px;
   margin-right: 10px;
+  color: #000;
 }
 
 /* Style the tab */
@@ -73,7 +74,7 @@ main {
 }
 .container {
   width: 80%;
-  border: 2px solid black;
+  /* border: 2px solid black; */
   margin: auto;
   margin-top: 20px;
   padding: 10px;
@@ -83,9 +84,23 @@ main {
 
 #top-books-tab-content,
 #book-results-container,
-#movie-results-container {
+#movie-results-container,
+#movie-critics-tab-content,
+#favourites-tab-content {
   font-weight: bolder;
 }
+
+
+#top-books-tab-content h3,
+#book-results-container h3,
+#movie-results-container h3,
+#movie-critics-tab-content h3,
+#favourites-tab-content h3 {
+  font-weight: bolder;
+  color: red;
+}
+
+
 span.addFavourite {
   color: red;
   cursor: pointer;
@@ -95,11 +110,7 @@ span.addFavourite {
 span.addFavourite.favourite {
   color: #000;
 }
-#movie-results-container,
-#movie-critics-tab-content,
-#favourites-tab-content {
-  font-weight: bolder;
-}
+
 
 .favBtn {
   border-left: 1px solid black;
