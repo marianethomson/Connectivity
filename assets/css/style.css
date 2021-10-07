@@ -25,6 +25,7 @@ h1 {
 
 h2 {
   font-size: 24px;
+  margin-bottom: 10px;
 }
 
 .logo img {
@@ -76,6 +77,23 @@ main {
   padding: 10px;
   background-color: white;
   border-radius: 10px;
+}
+
+.input_search {
+  display: flex;
+  font-size: 16px;
+  margin-bottom: 10px;
+  inline-size: 400px;
+  line-height: 30px;
+}
+
+form {
+  margin-top: 30px;
+}
+
+#search-btn {
+  font-size: 12px;
+  font-weight: bold;
 }
 
 #top-books-tab-content,
