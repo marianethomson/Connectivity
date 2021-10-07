@@ -11,7 +11,7 @@ header {
   padding: 10px;
   justify-content: space-around;
   margin: auto;
-  width: 90%;
+  width: 100%;
   color: black;
   overflow: hidden;
   border: 1px solid #ccc;
@@ -22,6 +22,7 @@ header {
 .logo img {
   height: 60px;
   margin-right: 10px;
+  color: #000;
 }
 
 /* Style the tab */
