@@ -333,5 +333,5 @@ function getFavourites() {
     console.log(favList[i]);
     favListHtml += "<li>" + favList[i] + "</li>";
   }
-  $("#favourites").html("<ol>" + favListHtml + "</ol>");
+  $("#favourites").html("<ul>" + favListHtml + "</ul>");
 }
