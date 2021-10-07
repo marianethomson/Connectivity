@@ -114,7 +114,6 @@ function getTopSellers() {
       return response.json();
     })
     .then(function (queryRes) {
-      console.log(queryRes.results.books);
       renderTopSellers(queryRes.results.books);
     })
     .catch(function (error) {
@@ -132,7 +131,6 @@ function getBookDetails(searchURL) {
       return response.json();
     })
     .then(function (queryRes) {
-      console.log(queryRes.results);
       renderBookResult(queryRes);
     })
     .catch(function (error) {
@@ -201,7 +199,6 @@ function renderMovieResultTemplate(result, image) {
 function renderBookResult(queryRes) {
   var innerHTML = "";
   if (queryRes.results.length > 0) {
-    innerHTML = "Book Review/s";
     queryRes.results.forEach((result) => {
       innerHTML += renderBookResultTemplate(result);
     });
@@ -313,7 +310,6 @@ $(document).on("click", "#addFavourite", function () {
     favList.push(title);
   }
   localStorage.setItem("favouriteList", JSON.stringify(favList));
-  console.log(favList);
   $(this).addClass("favourite");
 });
 
@@ -326,7 +322,6 @@ function getFavourites() {
   }
   var favListHtml = "";
   for (var i = 0; i < favList.length; i++) {
-    console.log(favList[i]);
     favListHtml += "<li>" + favList[i] + "</li>";
   }
   $("#favourites").html("<ul>" + favListHtml + "</ul>");
