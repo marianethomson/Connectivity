@@ -12,11 +12,13 @@ header {
   justify-content: space-around;
   margin: auto;
   width: 100%;
-  color: black;
+  color: white;
   overflow: hidden;
   border: 1px solid #ccc;
   background-color: #f1f1f1;
   border-radius: 10px;
+  background-color: #29539b;
+  background-image: linear-gradient(315deg, #29539b 0%, #1e3b70 74%);
 }
 
 h1 {
@@ -54,11 +56,13 @@ h2 {
   cursor: pointer;
   padding: 14px 16px;
   transition: 0.3s;
+  color: white;
 }
 
 /* Change background color of buttons on hover */
 .tabmenu button:hover {
   background-color: #ddd;
+  color: #29539b;
 }
 
 /* Create an active/current tablink class */
