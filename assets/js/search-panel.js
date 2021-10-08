@@ -70,41 +70,52 @@ function getSearchParam() {
 
 //calls the NYT Movies API and get the critics picks
 function getMoviesPicks() {
-  var apiPicksUrl =
-    baseMoviesURL + "?critics-pick=Y" + "&api-key=" + apiMoviesKey;
+
+    var apiPicksUrl = new URL(baseMoviesURL);
+    apiPicksUrl.searchParams.set("critics-pick", "Y");
+    apiPicksUrl.searchParams.set("api-key",apiMoviesKey);
+   
   getMovieDetails(apiPicksUrl, "#movie-critics-tab-content");
-  /* getMovieDetails(apiPicksUrl, "#movie-critics-results-panel"); */
+  
 }
 
 //calls the NYT Movies API search movies by param
 function getMoviesByTitle(param) {
-  var apiQueryUrl =
-    baseMoviesURL + "?query=" + param + "&api-key=" + apiMoviesKey;
+
+    var apiQueryUrl = new URL(baseMoviesURL);
+    apiQueryUrl.searchParams.set("query",param);
+    apiQueryUrl.searchParams.set("api-key", apiMoviesKey);
+
   getMovieDetails(apiQueryUrl, "#movie-results");
 }
 
 // Function to get book details by user's choice of title
 function getBooksByTitle(param) {
-  var searchByTitleUrl = new URL(
-    baseBooksURL + "?title=" + param + "&api-key=" + apiBooksKey
-  );
+
+  var searchByTitleUrl = new URL(baseBooksURL);
+  searchByTitleUrl.searchParams.set("title", param);
+  searchByTitleUrl.searchParams.set("api-key", apiBooksKey);
+
   getBookDetails(searchByTitleUrl);
 }
 
 // Function to get user choice  by author's name
 function getBooksByAuthor(param) {
-  var searchByAuthorUrl = new URL(
-    baseBooksURL + "?author=" + param + "&api-key=" + apiBooksKey
-  );
+
+  var searchByAuthorUrl = new URL(baseBooksURL);
+  searchByAuthorUrl.searchParams.set("author",param);
+  searchByAuthorUrl.searchParams.set("api-key",apiBooksKey);
+ 
   getBookDetails(searchByAuthorUrl);
 }
 
 // Function to get Books data
 function getTopSellers() {
   var topSellerBooksUrl = new URL(
-    "https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=" +
-      apiBooksKey
+    "https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json"
   );
+
+  topSellerBooksUrl.searchParams.set("api-key", apiBooksKey);
 
   fetch(topSellerBooksUrl)
     .then(function (response) {
@@ -158,7 +169,7 @@ function getMovieDetails(searchURL, contentElementSelector) {
 function renderMovieResult(queryRes, contentElementSelector) {
   var innerHTML = "";
   if (queryRes.num_results > 0) {
-    queryRes.results.forEach((result) => {
+    queryRes.results.slice(0, 5).forEach((result) => {
       var image = result.multimedia;
       if (!image) {
         image = "./assets/images/no-image.jpg";
@@ -175,7 +186,7 @@ function renderMovieResult(queryRes, contentElementSelector) {
 function renderMovieResultTemplate(result, image) {
   return `
   
-  <div class="container card column is-one-third">
+  <div class="container card column is-one-third px-6 py-6">
   <div class="card-image">
     <figure class="image is-4by3">
     <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="${image.src}" alt="${result.display_title}">
@@ -303,6 +314,7 @@ $(function () {
 });
 
 // Saving Search Items to Favourites
+
 var favList = [];
 $(document).on("click", "#addFavourite", function () {
   var title = $(this).attr("title");
@@ -326,3 +338,5 @@ function getFavourites() {
   }
   $("#favourites").html("<ul>" + favListHtml + "</ul>");
 }
+
+
