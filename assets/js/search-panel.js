@@ -185,8 +185,7 @@ function renderMovieResult(queryRes, contentElementSelector) {
 //displays movie results
 function renderMovieResultTemplate(result, image) {
   return `
-  
-  <div class="container card column is-one-third px-6 py-6">
+<div class="container column is-three-quarters-mobile px-3 py-3">
   <div class="card-image">
     <figure class="image is-4by3">
     <img onerror="this.src='./assets/images/no-image.jpg';this.onerror='';" src="${image.src}" alt="${result.display_title}">
@@ -201,8 +200,8 @@ function renderMovieResultTemplate(result, image) {
       <time datetime>Release Date: ${result.opening_date}</time>
       </div>
     </div>
-   </div>
-</div>
+  </div>
+ </div>
 `;
 }
 
